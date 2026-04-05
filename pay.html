@@ -1,0 +1,2007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oasis Engineering — Service Agreement & Payment</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --oasis-blue: #2c5fa8;
+            --oasis-blue-light: #e8eff8;
+            --oasis-blue-dark: #1e3f6f;
+            --oasis-green: #1a6b4a;
+            --oasis-green-light: #e8f5ee;
+            --oasis-green-dark: #0d4a31;
+            --oasis-sand: #f7f3ed;
+            --oasis-sand-dark: #e8e0d4;
+            --oasis-charcoal: #1a1a1a;
+            --oasis-slate: #4a5568;
+            --oasis-white: #ffffff;
+            --radius: 12px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--oasis-sand);
+            color: var(--oasis-charcoal);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* --- Top Banner --- */
+        .top-bar {
+            background: var(--oasis-blue-dark);
+            color: var(--oasis-white);
+            text-align: center;
+            padding: 8px 16px;
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        /* --- Header --- */
+        .header {
+            background: var(--oasis-white);
+            border-bottom: 1px solid var(--oasis-sand-dark);
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .header-brand img {
+            height: 42px;
+        }
+        .header-text h1 {
+            font-family: 'Fraunces', serif;
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--oasis-charcoal);
+            line-height: 1.2;
+        }
+        .header-text span {
+            font-size: 11px;
+            color: var(--oasis-slate);
+            letter-spacing: 0.5px;
+        }
+        .header-badge {
+            background: var(--oasis-blue-light);
+            color: var(--oasis-blue);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .header-badge::before {
+            content: '';
+            width: 7px;
+            height: 7px;
+            background: var(--oasis-blue);
+            border-radius: 50%;
+        }
+
+        /* --- Main Content --- */
+        .main {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 28px 20px 80px;
+        }
+
+        /* --- Invoice Hero --- */
+        .invoice-hero {
+            background: linear-gradient(135deg, var(--oasis-blue-dark) 0%, var(--oasis-blue) 100%);
+            border-radius: var(--radius) var(--radius) 0 0;
+            padding: 32px 28px 24px;
+            color: var(--oasis-white);
+            position: relative;
+            overflow: hidden;
+        }
+        .invoice-hero::after {
+            content: '';
+            position: absolute;
+            top: -40px; right: -40px;
+            width: 160px; height: 160px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+        }
+        .invoice-hero .invoice-label {
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.65;
+            margin-bottom: 3px;
+        }
+        .invoice-hero .invoice-id {
+            font-family: 'Fraunces', serif;
+            font-size: 14px;
+            font-weight: 400;
+            opacity: 0.8;
+            margin-bottom: 18px;
+        }
+        .invoice-hero .amount {
+            font-family: 'Fraunces', serif;
+            font-size: 44px;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+        .invoice-hero .amount-note {
+            font-size: 12px;
+            opacity: 0.65;
+        }
+        .invoice-hero .schedule-note {
+            margin-top: 12px;
+            font-size: 12px;
+            opacity: 0.75;
+            padding: 8px 12px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        /* --- Card Body --- */
+        .card {
+            background: var(--oasis-white);
+            border-radius: 0 0 var(--radius) var(--radius);
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+            overflow: hidden;
+        }
+
+        /* --- Section --- */
+        .section {
+            padding: 24px 28px;
+            border-bottom: 1px solid var(--oasis-sand-dark);
+        }
+        .section:last-child { border-bottom: none; }
+        .section-title {
+            font-family: 'Fraunces', serif;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--oasis-charcoal);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-title .icon {
+            width: 26px; height: 26px;
+            background: var(--oasis-blue-light);
+            border-radius: 7px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 13px;
+        }
+
+        /* --- Detail Grid --- */
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+        @media (max-width: 500px) { .detail-grid { grid-template-columns: 1fr; } }
+        .detail-item label {
+            display: block;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--oasis-slate);
+            margin-bottom: 3px;
+        }
+        .detail-item p {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--oasis-charcoal);
+        }
+        .detail-full { grid-column: 1 / -1; }
+
+        /* --- Editable Intake Fields --- */
+        .intake-field {
+            width: 100%;
+            padding: 9px 12px;
+            border: 1px solid var(--oasis-sand-dark);
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px;
+            color: var(--oasis-charcoal);
+            background: var(--oasis-white);
+            transition: border-color 0.2s;
+        }
+        .intake-field:focus {
+            outline: none;
+            border-color: var(--oasis-blue);
+            background: var(--oasis-blue-light);
+        }
+        .intake-field::placeholder { color: #aaa; }
+        select.intake-field {
+            appearance: auto;
+        }
+        textarea.intake-field { resize: vertical; min-height: 60px; }
+        .intake-badge {
+            display: inline-block;
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: var(--oasis-blue-light);
+            color: var(--oasis-blue);
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-left: 8px;
+            font-weight: 600;
+        }
+
+        /* --- Line Items / Pricing --- */
+        .line-items { width: 100%; }
+        .line-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 10px 0;
+            border-bottom: 1px dashed var(--oasis-sand-dark);
+        }
+        .line-item:last-child { border-bottom: none; }
+        .line-item .desc {
+            font-size: 13px;
+            color: var(--oasis-charcoal);
+            flex: 1;
+        }
+        .line-item .desc small {
+            display: block;
+            font-size: 11px;
+            color: var(--oasis-slate);
+            margin-top: 2px;
+        }
+        .line-item .price {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--oasis-charcoal);
+            white-space: nowrap;
+            margin-left: 16px;
+        }
+        .line-item.discount .price { color: #dc2626; }
+        .line-total {
+            display: flex;
+            justify-content: space-between;
+            padding: 14px 0 0;
+            border-top: 2px solid var(--oasis-charcoal);
+            margin-top: 6px;
+        }
+        .line-total .desc { font-weight: 700; font-size: 14px; }
+        .line-total .price {
+            font-family: 'Fraunces', serif;
+            font-weight: 700;
+            font-size: 20px;
+            color: var(--oasis-blue);
+        }
+
+        /* --- Deliverables checklist --- */
+        .deliverables-list {
+            background: var(--oasis-sand);
+            border-radius: 8px;
+            padding: 14px 16px;
+            margin-top: 12px;
+        }
+        .deliverables-list .del-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--oasis-slate);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .del-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 0;
+            font-size: 12px;
+            color: var(--oasis-charcoal);
+        }
+        .del-item::before {
+            content: '✓';
+            color: var(--oasis-blue);
+            font-weight: 700;
+            font-size: 11px;
+            width: 18px; height: 18px;
+            background: var(--oasis-blue-light);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+
+        /* --- Service Description Box --- */
+        .service-detail-box {
+            background: linear-gradient(135deg, #f0f5ff 0%, var(--oasis-sand) 100%);
+            border: 1px solid var(--oasis-blue-light);
+            border-radius: 10px;
+            padding: 18px 20px;
+            margin-bottom: 16px;
+        }
+        .service-detail-box .sdb-title {
+            font-family: 'Fraunces', serif;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--oasis-blue-dark);
+            margin-bottom: 6px;
+        }
+        .service-detail-box .sdb-overview {
+            font-size: 12.5px;
+            color: var(--oasis-slate);
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+        .service-detail-box .sdb-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: var(--oasis-blue);
+            font-weight: 700;
+            margin-top: 12px;
+            margin-bottom: 6px;
+        }
+        .service-detail-box .sdb-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            padding: 3px 0;
+            font-size: 12px;
+            color: var(--oasis-charcoal);
+            line-height: 1.4;
+        }
+        .service-detail-box .sdb-item::before {
+            content: '✓';
+            color: var(--oasis-blue);
+            font-weight: 700;
+            font-size: 10px;
+            width: 16px; height: 16px;
+            background: rgba(44,95,168,0.1);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .service-detail-box .sdb-step {
+            display: flex; align-items: flex-start; gap: 8px;
+            padding: 3px 0; font-size: 12px; color: var(--oasis-charcoal); line-height: 1.4;
+        }
+        .service-detail-box .sdb-step .step-num {
+            width: 18px; height: 18px; border-radius: 50%;
+            background: var(--oasis-blue); color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 10px; font-weight: 700; flex-shrink: 0;
+        }
+        .service-detail-box .sdb-note {
+            font-size: 11px;
+            color: var(--oasis-slate);
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(0,0,0,0.06);
+            font-style: italic;
+        }
+
+        /* --- Client Add-on Cards --- */
+        .addon-cards {
+            margin-top: 16px;
+            border-top: 1px solid var(--oasis-sand-dark);
+            padding-top: 16px;
+        }
+        .addon-cards-title {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--oasis-slate);
+            margin-bottom: 10px;
+        }
+        .addon-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            border: 1px solid var(--oasis-sand-dark);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.15s;
+            background: var(--oasis-white);
+        }
+        .addon-card:hover {
+            border-color: var(--oasis-blue);
+            background: var(--oasis-blue-light);
+        }
+        .addon-card.selected {
+            border-color: var(--oasis-blue);
+            background: var(--oasis-blue-light);
+        }
+        .addon-card .addon-check {
+            width: 20px; height: 20px;
+            border: 2px solid var(--oasis-sand-dark);
+            border-radius: 4px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px; flex-shrink: 0; transition: all 0.15s;
+            color: transparent;
+        }
+        .addon-card.selected .addon-check {
+            background: var(--oasis-blue);
+            border-color: var(--oasis-blue);
+            color: white;
+        }
+        .addon-card .addon-info { flex: 1; }
+        .addon-card .addon-name { font-size: 13px; font-weight: 600; color: var(--oasis-charcoal); }
+        .addon-card .addon-desc { font-size: 11px; color: var(--oasis-slate); margin-top: 1px; }
+        .addon-card .addon-price {
+            font-size: 14px; font-weight: 700;
+            color: var(--oasis-blue);
+            white-space: nowrap;
+        }
+
+        /* --- File Upload --- */
+        .upload-zone {
+            border: 2px dashed var(--oasis-sand-dark);
+            border-radius: 10px;
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: var(--oasis-sand);
+        }
+        .upload-zone:hover {
+            border-color: var(--oasis-blue);
+            background: var(--oasis-blue-light);
+        }
+        .upload-zone.dragover {
+            border-color: var(--oasis-blue);
+            background: var(--oasis-blue-light);
+        }
+        .upload-zone .upload-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        .upload-zone .upload-text {
+            font-size: 13px;
+            color: var(--oasis-slate);
+        }
+        .upload-zone .upload-text strong {
+            color: var(--oasis-blue);
+            cursor: pointer;
+        }
+        .upload-zone .upload-hint {
+            font-size: 11px;
+            color: #999;
+            margin-top: 4px;
+        }
+        .file-list {
+            margin-top: 12px;
+        }
+        .file-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            background: var(--oasis-white);
+            border: 1px solid var(--oasis-sand-dark);
+            border-radius: 8px;
+            margin-bottom: 6px;
+        }
+        .file-item .file-icon { font-size: 18px; }
+        .file-item .file-info { flex: 1; }
+        .file-item .file-name { font-size: 13px; font-weight: 500; }
+        .file-item .file-size { font-size: 11px; color: var(--oasis-slate); }
+        .file-item .file-remove {
+            background: none; border: none;
+            color: #dc2626; cursor: pointer;
+            font-size: 16px; padding: 4px;
+        }
+
+        /* --- Terms (collapsible) --- */
+        .terms-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            padding: 0;
+            background: none;
+            border: none;
+            width: 100%;
+            text-align: left;
+        }
+        .terms-toggle .arrow {
+            transition: transform 0.2s;
+            font-size: 12px;
+            color: var(--oasis-slate);
+        }
+        .terms-toggle.open .arrow { transform: rotate(180deg); }
+        .terms-content {
+            display: none;
+            margin-top: 14px;
+        }
+        .terms-content.open { display: block; }
+        .terms-section {
+            margin-bottom: 16px;
+        }
+        .terms-section h4 {
+            font-family: 'Fraunces', serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--oasis-charcoal);
+            margin-bottom: 5px;
+        }
+        .terms-section p, .terms-section ul {
+            font-size: 12px;
+            line-height: 1.7;
+            color: var(--oasis-slate);
+        }
+        .terms-section ul {
+            padding-left: 20px;
+            margin-top: 4px;
+        }
+        .terms-section ul li {
+            margin-bottom: 3px;
+        }
+        .terms-download {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 12px;
+            padding: 8px 16px;
+            background: var(--oasis-sand);
+            border: 1px solid var(--oasis-sand-dark);
+            border-radius: 8px;
+            font-size: 12px;
+            color: var(--oasis-blue);
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.15s;
+        }
+        .terms-download:hover {
+            background: var(--oasis-blue-light);
+            border-color: var(--oasis-blue);
+        }
+
+        /* --- E-Signature --- */
+        .signature-pad-wrapper {
+            border: 2px solid var(--oasis-sand-dark);
+            border-radius: 10px;
+            overflow: hidden;
+            background: var(--oasis-white);
+            position: relative;
+        }
+        .signature-pad-wrapper canvas {
+            width: 100%;
+            height: 160px;
+            cursor: crosshair;
+            display: block;
+        }
+        .signature-pad-wrapper .sig-placeholder {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 13px;
+            color: #ccc;
+            pointer-events: none;
+            transition: opacity 0.2s;
+        }
+        .signature-pad-wrapper.has-signature .sig-placeholder { opacity: 0; }
+        .sig-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .sig-actions button {
+            padding: 5px 14px;
+            font-size: 11px;
+            font-family: 'DM Sans', sans-serif;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 1px solid var(--oasis-sand-dark);
+            background: var(--oasis-white);
+            color: var(--oasis-slate);
+            transition: all 0.15s;
+        }
+        .sig-actions button:hover {
+            border-color: var(--oasis-blue);
+            color: var(--oasis-blue);
+        }
+
+        /* --- Consent + Pay --- */
+        .consent-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .consent-row input[type="checkbox"] {
+            margin-top: 3px;
+            width: 18px; height: 18px;
+            accent-color: var(--oasis-blue);
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+        .consent-row label {
+            font-size: 12px;
+            color: var(--oasis-slate);
+            cursor: pointer;
+            line-height: 1.6;
+        }
+        .consent-row label strong { color: var(--oasis-charcoal); }
+
+        .pay-btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: var(--oasis-blue);
+            color: var(--oasis-white);
+            border: none;
+            border-radius: var(--radius);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            letter-spacing: 0.3px;
+        }
+        .pay-btn:hover:not(:disabled) {
+            background: var(--oasis-blue-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(44,95,168,0.3);
+        }
+        .pay-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .secure-note {
+            text-align: center;
+            margin-top: 12px;
+            font-size: 10px;
+            color: var(--oasis-slate);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .secure-note svg { opacity: 0.5; }
+
+        /* --- Footer --- */
+        .footer {
+            text-align: center;
+            padding: 28px 20px;
+            font-size: 11px;
+            color: var(--oasis-slate);
+        }
+        .footer a {
+            color: var(--oasis-blue);
+            text-decoration: none;
+        }
+
+        /* --- Status Paid --- */
+        .status-paid {
+            background: var(--oasis-green-light);
+            border: 2px solid var(--oasis-green);
+            border-radius: var(--radius);
+            padding: 24px;
+            text-align: center;
+        }
+        .status-paid h3 {
+            font-family: 'Fraunces', serif;
+            color: var(--oasis-green);
+            font-size: 20px;
+            margin-bottom: 6px;
+        }
+        .status-paid p {
+            font-size: 13px;
+            color: var(--oasis-slate);
+        }
+
+        /* --- Loading skeleton --- */
+        .skeleton {
+            background: linear-gradient(90deg, var(--oasis-sand-dark) 25%, var(--oasis-sand) 50%, var(--oasis-sand-dark) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 6px;
+            height: 18px;
+            margin-bottom: 10px;
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 600px) {
+            .header { flex-direction: column; gap: 12px; align-items: flex-start; }
+            .invoice-hero { padding: 24px 18px 20px; }
+            .invoice-hero .amount { font-size: 34px; }
+            .section { padding: 20px 18px; }
+            .main { padding: 16px 10px 60px; }
+        }
+
+        @media print {
+            .top-bar, .header-badge, .upload-zone, .sig-actions,
+            .pay-btn, .secure-note, .consent-row { display: none !important; }
+            body { background: white; }
+            .main { padding: 0; max-width: none; }
+            .invoice-hero { background: var(--oasis-blue-dark) !important; print-color-adjust: exact; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">Oasis Engineering — Energy & Wind Calculation Services</div>
+
+<header class="header">
+    <div class="header-brand">
+        <img src="OasisLogo.PNG" alt="Oasis Engineering">
+        <div class="header-text">
+            <h1>Oasis Engineering</h1>
+            <span>Your City, ST — FSEC Certified Energy Specialist</span>
+        </div>
+    </div>
+    <div class="header-badge" id="statusBadge">Invoice Active</div>
+</header>
+
+<main class="main" id="app">
+    <!-- Content rendered by JS -->
+</main>
+
+<footer class="footer">
+    &copy; 2026 Oasis Engineering &middot; 3702 W Spruce St, #1033 Your City, ST 33607<br>
+    <a href="https://yourcompany.com">yourcompany.com</a> &middot;
+    <a href="https://windcalculations.com">windcalculations.com</a> &middot;
+    555-123-4567
+</footer>
+
+<!-- Hidden file input -->
+<input type="file" id="fileInput" multiple accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.dwg,.dxf,.xlsx,.csv" style="display:none;">
+
+<script>
+    // ====================================
+    // INVOICE DATA
+    // ====================================
+    const INVOICE = window.__INVOICE__ || null;
+
+    // Check for preview mode
+    let previewData = null;
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('preview') === '1' && urlParams.get('data')) {
+        try {
+            previewData = JSON.parse(decodeURIComponent(urlParams.get('data')));
+        } catch(e) {}
+    }
+
+    // Build invoice object from preview data or actual data
+    function getInvoice() {
+        if (INVOICE) return INVOICE;
+        if (previewData) {
+            return {
+                id: 'PREVIEW',
+                status: 'pending',
+                created: new Date().toISOString().split('T')[0],
+                due: new Date(Date.now() + 14*86400000).toISOString().split('T')[0],
+                client: {
+                    name: previewData.client_name || 'Client Name',
+                    email: previewData.client_email || '',
+                    phone: previewData.client_phone || ''
+                },
+                project: {
+                    address: previewData.project_address || '',
+                    type: previewData.service_type || 'Engineering Service',
+                    description: previewData.description || '',
+                    county: previewData.county || ''
+                },
+                lineItems: previewData.line_items || [{ description: previewData.service_type, amount: parseFloat(previewData.amount) || 0 }],
+                discount: previewData.discount || null,
+                total: parseFloat(previewData.amount) || 0,
+                intake: previewData.intake || {},
+                engineer: 'Oasis Engineering'
+            };
+        }
+        // Demo fallback
+        return {
+            id: 'OE-2026-0042',
+            status: 'pending',
+            created: '2026-04-04',
+            due: '2026-04-18',
+            client: { name: 'EC Construction of SWFL', email: 'ecconstructionswfl@gmail.com', phone: '(239) 314-7898' },
+            project: {
+                address: '3415 Monarch St, Port Charlotte, FL 33948',
+                type: 'Energy Calculations Package — J/S/D',
+                description: 'New home energy calculations with full Manual J/S/D package for two sites.',
+                county: 'Charlotte County'
+            },
+            lineItems: [
+                { description: 'Energy Calculations Package (Manual J/S/D)', amount: 600, deliverables: ['Residential Energy Conservation Code Checklist', 'Energy Performance Level (EPL) Card', 'R402/R405 Energy Efficiency Calculations', 'Manual S Calculations', 'Manual J Calculations', 'Manual D Calculations'] }
+            ],
+            discount: null,
+            total: 600,
+            intake: {
+                project_type: 'New Single-Family Residence',
+                sqft: '2458',
+                system_type: 'New A/C install',
+                ductwork_status: 'New ducts',
+                duct_location: 'Other / Unknown / IDK',
+                notes: 'We did not pass the insulation inspection because the energy calculations and the windows do not match.'
+            },
+            engineer: 'Oasis Engineering'
+        };
+    }
+
+    // ====================================
+    // CLIENT ADD-ONS (available for client to self-select)
+    // ====================================
+    // ====================================
+    // SERVICE DESCRIPTIONS (shown to client)
+    // ====================================
+    const SERVICE_DESCRIPTIONS = {
+        'fema-ec': {
+            title: 'FEMA Elevation Certificate Service',
+            overview: 'Professional preparation of a FEMA Elevation Certificate (EC) for residential and light commercial properties. Designed for homeowners, contractors, and real estate professionals needing documentation for flood insurance, compliance, or records. Signed and sealed by PE.',
+            includes: [
+                'Completed FEMA Elevation Certificate (latest form version)',
+                'Documentation of building characteristics',
+                'Lowest floor elevation documentation',
+                'Adjacent grade elevations',
+                'Reference to applicable vertical datum',
+                'Engineer-reviewed & PE signed/sealed document',
+                'FREE review for LOMA (Letter of Map Amendment) qualification — flood zone removal eligibility'
+            ],
+            howItWorks: [
+                'Submit property details and order online',
+                'Upload any available documents (survey, prior EC, plans, etc.)',
+                'Schedule site visit (if needed)',
+                'We complete and deliver your Elevation Certificate'
+            ],
+            delivery: 'Delivered as a PDF document. Typical turnaround: 1–3 business days after data collection.',
+            useCases: 'Flood insurance (NFIP compliance), property transactions, lender documentation, municipal records, during-construction FFE records.',
+            notes: 'Flood zone references are based on public FEMA mapping. This service does not include boundary or topographic surveys. Flood zone removal (LOMA) service is separate if qualification is confirmed.'
+        },
+        'site-visit': {
+            title: 'Site Visit + Digital Property Scan Package',
+            overview: 'A streamlined, on-demand site visit service to capture accurate existing conditions of a property. Ideal for documentation, planning, remote collaboration, and record keeping.',
+            includes: [
+                'On-site inspection — visual review of structure and surrounding site conditions',
+                'Field notes of observable conditions (non-invasive)',
+                'High-resolution photo documentation: exterior elevations, foundation, visible structural elements, site conditions',
+                'Matterport 3D Tour — interactive walkthrough model with hosted shareable link',
+                'Measurements and navigation from any device via Matterport',
+                'Organized photo set (digital download)',
+                'Field observation summary'
+            ],
+            delivery: 'Matterport 3D tour link + organized photo set delivered digitally. Scheduling within service area.',
+            notes: 'Site visit is non-invasive — no destructive testing or removal of building materials.'
+        }
+    };
+
+    const CLIENT_ADDONS = [
+        {
+            id: 'manual-d',
+            name: 'Manual D Duct Layout',
+            desc: 'Duct layout design — often required by building departments',
+            price: 100,
+            deliverables: ['Manual D Calculations']
+        },
+        {
+            id: 'rush',
+            name: 'Rush / Next-Day Delivery',
+            desc: 'Priority processing — delivered within 24 hours',
+            price: 150,
+            deliverables: []
+        },
+        {
+            id: 'printed',
+            name: 'Printed Deliverables (Shipped)',
+            desc: 'Printed and mailed letter-size copies — $25 shipping & handling',
+            price: 25,
+            deliverables: []
+        },
+        {
+            id: 'floor-plan',
+            name: '2D Dimensioned Floor Plan',
+            desc: 'Generated from Matterport scan — room layout with approximate dimensions (PDF). For reference use only.',
+            price: 25,
+            deliverables: ['2D Dimensioned Floor Plan (PDF)']
+        }
+    ];
+    let selectedClientAddons = {};
+
+    // ====================================
+    // FILE UPLOAD STATE
+    // ====================================
+    let uploadedFiles = [];
+
+    // ====================================
+    // SIGNATURE STATE
+    // ====================================
+    let signatureCanvas = null;
+    let signatureCtx = null;
+    let isDrawing = false;
+    let hasSigned = false;
+
+    // ====================================
+    // RENDER
+    // ====================================
+    // Build service description HTML for client-facing page
+    function getServiceDescriptionHtml(lineItems) {
+        if (!lineItems || lineItems.length === 0) return '';
+        let html = '';
+        lineItems.forEach(li => {
+            const desc = (li.description || '').toLowerCase();
+            let key = null;
+            if (desc.includes('fema') || desc.includes('elevation certificate')) key = 'fema-ec';
+            else if (desc.includes('site visit') || desc.includes('property scan') || desc.includes('matterport')) key = 'site-visit';
+            if (!key) return;
+            const svc = SERVICE_DESCRIPTIONS[key];
+            if (!svc) return;
+            html += `<div class="service-detail-box">
+                <div class="sdb-title">${svc.title}</div>
+                <div class="sdb-overview">${svc.overview}</div>
+                <div class="sdb-label">What's Included</div>
+                ${svc.includes.map(i => `<div class="sdb-item">${i}</div>`).join('')}
+                ${svc.howItWorks ? `
+                    <div class="sdb-label">How It Works</div>
+                    ${svc.howItWorks.map((s, idx) => `<div class="sdb-step"><span class="step-num">${idx+1}</span>${s}</div>`).join('')}
+                ` : ''}
+                ${svc.delivery ? `<div class="sdb-label">Delivery</div><div style="font-size:12px; color:var(--oasis-charcoal);">${svc.delivery}</div>` : ''}
+                ${svc.useCases ? `<div class="sdb-label">Use Cases</div><div style="font-size:12px; color:var(--oasis-charcoal);">${svc.useCases}</div>` : ''}
+                ${svc.notes ? `<div class="sdb-note">⚠️ ${svc.notes}</div>` : ''}
+            </div>`;
+        });
+        return html;
+    }
+
+    function renderInvoice(inv) {
+        const app = document.getElementById('app');
+
+        if (inv.status === 'paid') {
+            // Collect deliverables
+            const allDels = [];
+            (inv.lineItems || []).forEach(li => {
+                if (li.deliverables) li.deliverables.forEach(d => { if (!allDels.includes(d)) allDels.push(d); });
+            });
+
+            app.innerHTML = `
+                <div class="invoice-hero">
+                    <div class="invoice-label">Invoice</div>
+                    <div class="invoice-id">${inv.id}</div>
+                    <div class="amount">$${inv.total.toFixed(2)}</div>
+                    <div class="amount-note">Payment Received</div>
+                </div>
+                <div class="card">
+                    <div class="section">
+                        <div class="status-paid">
+                            <h3>✓ Payment Confirmed</h3>
+                            <p>Thank you! A receipt has been sent to <strong>${inv.client.email}</strong>.<br>
+                            Your energy calculations will be delivered within the estimated timeframe.</p>
+                        </div>
+                    </div>
+
+                    <!-- Order Summary -->
+                    <div class="section">
+                        <div class="section-title"><span class="icon">📋</span> Order Summary</div>
+                        <div class="detail-grid">
+                            <div class="detail-item">
+                                <label>Client</label>
+                                <p>${inv.client.name}</p>
+                            </div>
+                            <div class="detail-item">
+                                <label>Jurisdiction</label>
+                                <p>${inv.project.county || '—'}</p>
+                            </div>
+                            <div class="detail-item detail-full">
+                                <label>Project Address</label>
+                                <p>${inv.project.address}</p>
+                            </div>
+                        </div>
+                        <div style="margin-top:14px;">
+                            ${(inv.lineItems || []).filter(li => li.amount > 0).map(li => `
+                                <div style="display:flex; justify-content:space-between; padding:6px 0; font-size:13px; border-bottom:1px dashed var(--oasis-sand-dark);">
+                                    <span>${li.description}</span>
+                                    <span style="font-weight:600;">$${li.amount.toFixed(2)}</span>
+                                </div>
+                            `).join('')}
+                            <div style="display:flex; justify-content:space-between; padding:10px 0 0; border-top:2px solid var(--oasis-charcoal); margin-top:4px; font-weight:700;">
+                                <span>Total Paid</span>
+                                <span style="color:var(--oasis-blue); font-size:18px; font-family:'Fraunces',serif;">$${inv.total.toFixed(2)}</span>
+                            </div>
+                        </div>
+                        ${allDels.length > 0 ? `
+                            <div class="deliverables-list" style="margin-top:14px;">
+                                <div class="del-title">What's Included</div>
+                                ${allDels.map(d => `<div class="del-item">${d}</div>`).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+
+                    <!-- Downloads -->
+                    <div class="section" style="text-align:center;">
+                        <div class="section-title" style="justify-content:center;"><span class="icon">📄</span> Your Documents</div>
+                        <p style="font-size:12px; color:var(--oasis-slate); margin-bottom:16px;">Download your signed service agreement for your records.</p>
+                        <button onclick="downloadSignedAgreement()" style="
+                            display:inline-flex; align-items:center; gap:8px;
+                            padding:14px 28px; background:var(--oasis-blue); color:white;
+                            border:none; border-radius:10px; font-family:'DM Sans',sans-serif;
+                            font-size:14px; font-weight:600; cursor:pointer; transition:all 0.2s;
+                        " onmouseover="this.style.background='var(--oasis-blue-dark)'" onmouseout="this.style.background='var(--oasis-blue)'">
+                            📄 Download Signed Agreement (PDF)
+                        </button>
+                        <div style="margin-top:10px;">
+                            <a onclick="downloadTermsPDF()" style="font-size:12px; color:var(--oasis-blue); cursor:pointer; text-decoration:underline;">
+                                Download Full Terms & Conditions
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Contact -->
+                    <div class="section" style="text-align:center; background:var(--oasis-sand);">
+                        <p style="font-size:13px; color:var(--oasis-slate);">
+                            Questions? Contact us at <a href="mailto:info@yourcompany.com" style="color:var(--oasis-blue);">info@yourcompany.com</a>
+                            or call <a href="tel:8136948989" style="color:var(--oasis-blue);">555-123-4567</a>
+                        </p>
+                    </div>
+                </div>`;
+            document.getElementById('statusBadge').textContent = 'Paid';
+            document.getElementById('statusBadge').style.background = '#d4edda';
+            document.getElementById('statusBadge').style.color = '#155724';
+            return;
+        }
+
+        // Build line items HTML
+        const lineItemsHtml = (inv.lineItems || [])
+            .filter(li => li.amount > 0 || li.description)
+            .map(li => `
+                <div class="line-item">
+                    <span class="desc">
+                        ${li.description}
+                        ${li.isAddon ? '<small>Add-on</small>' : ''}
+                    </span>
+                    <span class="price">${li.amount > 0 ? '$' + li.amount.toFixed(2) : 'Included'}</span>
+                </div>
+            `).join('');
+
+        const discountHtml = inv.discount && inv.discount.amount > 0
+            ? `<div class="line-item discount">
+                    <span class="desc">Discount${inv.discount.type === 'percent' ? ' (' + inv.discount.value + '%)' : ''}</span>
+                    <span class="price">−$${inv.discount.amount.toFixed(2)}</span>
+               </div>`
+            : '';
+
+        // Collect all deliverables
+        const allDeliverables = [];
+        (inv.lineItems || []).forEach(li => {
+            if (li.deliverables) {
+                li.deliverables.forEach(d => {
+                    if (!allDeliverables.includes(d)) allDeliverables.push(d);
+                });
+            }
+        });
+
+        const deliverablesHtml = allDeliverables.length > 0
+            ? `<div class="deliverables-list">
+                    <div class="del-title">What's Included</div>
+                    ${allDeliverables.map(d => `<div class="del-item">${d}</div>`).join('')}
+               </div>`
+            : '';
+
+        // Intake data
+        const intake = inv.intake || {};
+        const hasIntake = Object.values(intake).some(v => v && v.trim());
+
+        const intakeHtml = `
+            <div class="section" id="intakeSection">
+                <div class="section-title">
+                    <span class="icon">📋</span> Project Information
+                    <span class="intake-badge">Please verify</span>
+                </div>
+                <p style="font-size:12px; color:var(--oasis-slate); margin-bottom:14px;">
+                    Please review the information below. You may edit any fields before proceeding.
+                </p>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <label>Client</label>
+                        <p>${inv.client.name}</p>
+                    </div>
+                    <div class="detail-item">
+                        <label>Jurisdiction</label>
+                        <p>${inv.project.county || '—'}</p>
+                    </div>
+                    <div class="detail-item detail-full">
+                        <label>Project Address</label>
+                        <p>${inv.project.address}</p>
+                    </div>
+                    <div class="detail-item">
+                        <label>Project Type</label>
+                        <select class="intake-field" id="intake_project_type">
+                            <option value="">Select...</option>
+                            <option value="New Single-Family Residence" ${intake.project_type === 'New Single-Family Residence' ? 'selected' : ''}>New Single-Family Residence</option>
+                            <option value="New Multi-Family Residence" ${intake.project_type === 'New Multi-Family Residence' ? 'selected' : ''}>New Multi-Family Residence</option>
+                            <option value="Remodel / Addition" ${intake.project_type === 'Remodel / Addition' ? 'selected' : ''}>Remodel / Addition</option>
+                            <option value="New A/C Install" ${intake.project_type === 'New A/C Install' ? 'selected' : ''}>New A/C Install</option>
+                            <option value="Re-Roof" ${intake.project_type === 'Re-Roof' ? 'selected' : ''}>Re-Roof</option>
+                            <option value="Windows & Doors Replacement" ${intake.project_type === 'Windows & Doors Replacement' ? 'selected' : ''}>Windows & Doors Replacement</option>
+                            <option value="Other" ${intake.project_type === 'Other' ? 'selected' : ''}>Other</option>
+                        </select>
+                    </div>
+                    <div class="detail-item">
+                        <label>Project Square Footage (Sq-Ft)</label>
+                        <input type="number" class="intake-field" id="intake_sqft" value="${intake.sqft || ''}" placeholder="e.g. 2458">
+                    </div>
+                    <div class="detail-item">
+                        <label>System Type</label>
+                        <select class="intake-field" id="intake_system_type">
+                            <option value="">Select...</option>
+                            <option value="New A/C install" ${intake.system_type === 'New A/C install' ? 'selected' : ''}>New A/C install</option>
+                            <option value="Existing Central A/C" ${intake.system_type === 'Existing Central A/C' ? 'selected' : ''}>Existing Central A/C</option>
+                            <option value="Ductless Mini Split" ${intake.system_type === 'Ductless Mini Split' ? 'selected' : ''}>Ductless Mini Split</option>
+                            <option value="Heat Pump" ${intake.system_type === 'Heat Pump' ? 'selected' : ''}>Heat Pump</option>
+                            <option value="Package Unit" ${intake.system_type === 'Package Unit' ? 'selected' : ''}>Package Unit</option>
+                            <option value="Other" ${intake.system_type === 'Other' ? 'selected' : ''}>Other</option>
+                        </select>
+                    </div>
+                    <div class="detail-item">
+                        <label>Ductwork Status</label>
+                        <select class="intake-field" id="intake_ductwork_status">
+                            <option value="">Select...</option>
+                            <option value="New ducts" ${intake.ductwork_status === 'New ducts' ? 'selected' : ''}>New ducts</option>
+                            <option value="Existing ducts" ${intake.ductwork_status === 'Existing ducts' ? 'selected' : ''}>Existing ducts</option>
+                            <option value="No ducts (ductless)" ${intake.ductwork_status === 'No ducts (ductless)' ? 'selected' : ''}>No ducts (ductless)</option>
+                            <option value="Unknown" ${intake.ductwork_status === 'Unknown' ? 'selected' : ''}>Unknown / IDK</option>
+                        </select>
+                    </div>
+                    <div class="detail-item">
+                        <label>Duct Location</label>
+                        <select class="intake-field" id="intake_duct_location">
+                            <option value="">Select...</option>
+                            <option value="Attic" ${intake.duct_location === 'Attic' ? 'selected' : ''}>Attic</option>
+                            <option value="Crawl Space" ${intake.duct_location === 'Crawl Space' ? 'selected' : ''}>Crawl Space</option>
+                            <option value="Conditioned Space" ${intake.duct_location === 'Conditioned Space' ? 'selected' : ''}>Conditioned Space</option>
+                            <option value="Other / Unknown / IDK" ${(intake.duct_location === 'Other / Unknown / IDK' || intake.duct_location === 'Other') ? 'selected' : ''}>Other / Unknown / IDK</option>
+                        </select>
+                    </div>
+                    <div class="detail-item">
+                        <label>HVAC Equipment Info (if known)</label>
+                        <input type="text" class="intake-field" id="intake_hvac_info" value="${intake.hvac_info || ''}" placeholder="e.g. Mitsubishi 20K BTU Mini Split...">
+                    </div>
+                    <div class="detail-item">
+                        <label>Wall Insulation Type</label>
+                        <select class="intake-field" id="intake_wall_insulation">
+                            <option value="">Select...</option>
+                            <option value="R-13 Fiberglass Batt" ${intake.wall_insulation === 'R-13 Fiberglass Batt' ? 'selected' : ''}>R-13 Fiberglass Batt</option>
+                            <option value="R-15 Fiberglass Batt" ${intake.wall_insulation === 'R-15 Fiberglass Batt' ? 'selected' : ''}>R-15 Fiberglass Batt</option>
+                            <option value="R-19 Fiberglass Batt" ${intake.wall_insulation === 'R-19 Fiberglass Batt' ? 'selected' : ''}>R-19 Fiberglass Batt</option>
+                            <option value="R-21 Fiberglass Batt" ${intake.wall_insulation === 'R-21 Fiberglass Batt' ? 'selected' : ''}>R-21 Fiberglass Batt</option>
+                            <option value="R-13 Spray Foam (Open Cell)" ${intake.wall_insulation === 'R-13 Spray Foam (Open Cell)' ? 'selected' : ''}>R-13 Spray Foam (Open Cell)</option>
+                            <option value="R-20 Spray Foam (Closed Cell)" ${intake.wall_insulation === 'R-20 Spray Foam (Closed Cell)' ? 'selected' : ''}>R-20 Spray Foam (Closed Cell)</option>
+                            <option value="R-13 Blown-In" ${intake.wall_insulation === 'R-13 Blown-In' ? 'selected' : ''}>R-13 Blown-In</option>
+                            <option value="R-5 Continuous Insulation (CI)" ${intake.wall_insulation === 'R-5 Continuous Insulation (CI)' ? 'selected' : ''}>R-5 Continuous Insulation (CI)</option>
+                            <option value="None / Unknown" ${intake.wall_insulation === 'None / Unknown' ? 'selected' : ''}>None / Unknown</option>
+                            <option value="Other" ${intake.wall_insulation === 'Other' ? 'selected' : ''}>Other</option>
+                        </select>
+                    </div>
+                    <div class="detail-item">
+                        <label>Ceiling Insulation Type</label>
+                        <select class="intake-field" id="intake_ceiling_insulation">
+                            <option value="">Select...</option>
+                            <option value="R-30 Fiberglass Batt" ${intake.ceiling_insulation === 'R-30 Fiberglass Batt' ? 'selected' : ''}>R-30 Fiberglass Batt</option>
+                            <option value="R-38 Fiberglass Batt" ${intake.ceiling_insulation === 'R-38 Fiberglass Batt' ? 'selected' : ''}>R-38 Fiberglass Batt</option>
+                            <option value="R-30 Blown-In" ${intake.ceiling_insulation === 'R-30 Blown-In' ? 'selected' : ''}>R-30 Blown-In</option>
+                            <option value="R-38 Blown-In" ${intake.ceiling_insulation === 'R-38 Blown-In' ? 'selected' : ''}>R-38 Blown-In</option>
+                            <option value="R-49 Blown-In" ${intake.ceiling_insulation === 'R-49 Blown-In' ? 'selected' : ''}>R-49 Blown-In</option>
+                            <option value="R-20 Spray Foam (Open Cell)" ${intake.ceiling_insulation === 'R-20 Spray Foam (Open Cell)' ? 'selected' : ''}>R-20 Spray Foam (Open Cell)</option>
+                            <option value="R-30 Spray Foam (Closed Cell)" ${intake.ceiling_insulation === 'R-30 Spray Foam (Closed Cell)' ? 'selected' : ''}>R-30 Spray Foam (Closed Cell)</option>
+                            <option value="None / Unknown" ${intake.ceiling_insulation === 'None / Unknown' ? 'selected' : ''}>None / Unknown</option>
+                            <option value="Other" ${intake.ceiling_insulation === 'Other' ? 'selected' : ''}>Other</option>
+                        </select>
+                    </div>
+                    <div class="detail-item detail-full">
+                        <label>Additional Notes</label>
+                        <textarea class="intake-field" id="intake_notes" placeholder="Window series info, special conditions, anything else we should know...">${intake.notes || ''}</textarea>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Schedule note
+        const scheduleNote = '<div class="schedule-note">Estimated completion: 1-3 business days from project start</div>';
+
+        app.innerHTML = `
+            <div class="invoice-hero">
+                <div class="invoice-label">Service Agreement & Invoice</div>
+                <div class="invoice-id">#${inv.id} &middot; Prepared by Your Name — Oasis Engineering</div>
+                <div class="amount">$${inv.total.toFixed(2)}</div>
+                <div class="amount-note">Due by ${formatDate(inv.due)}</div>
+                ${scheduleNote}
+            </div>
+            <div class="card">
+                <!-- Project Info / Intake -->
+                ${intakeHtml}
+
+                <!-- Service Description (if applicable) -->
+                ${getServiceDescriptionHtml(inv.lineItems)}
+
+                <!-- Pricing -->
+                <div class="section" id="pricingSection">
+                    <div class="section-title"><span class="icon">💰</span> Service Fee</div>
+                    <div class="line-items" id="lineItemsContainer">
+                        ${lineItemsHtml}
+                        ${discountHtml}
+                        <div class="line-total">
+                            <span class="desc">Total Due</span>
+                            <span class="price" id="totalDisplay">$${inv.total.toFixed(2)}</span>
+                        </div>
+                    </div>
+                    ${deliverablesHtml}
+
+                    <!-- Client-selectable add-ons -->
+                    <div class="addon-cards" id="clientAddons">
+                        <div class="addon-cards-title">Want to add any of these?</div>
+                        ${CLIENT_ADDONS
+                            .filter(a => {
+                                // Hide add-ons already included in the invoice
+                                const names = (inv.lineItems || []).map(li => (li.description || '').toLowerCase());
+                                return !names.some(n => n.includes(a.name.toLowerCase().split(' ')[0]));
+                            })
+                            .map(a => `
+                                <div class="addon-card" id="client-addon-${a.id}" onclick="toggleClientAddon('${a.id}')">
+                                    <span class="addon-check">✓</span>
+                                    <div class="addon-info">
+                                        <div class="addon-name">${a.name}</div>
+                                        <div class="addon-desc">${a.desc}</div>
+                                    </div>
+                                    <div class="addon-price">+$${a.price.toFixed(2)}</div>
+                                </div>
+                            `).join('')}
+                    </div>
+                </div>
+
+                <!-- File Upload -->
+                <div class="section">
+                    <div class="section-title"><span class="icon">📎</span> Plans & Documents Upload</div>
+                    <p style="font-size:12px; color:var(--oasis-slate); margin-bottom:12px;">
+                        Upload blueprints, architectural plans, window specs, A/C documents, or any other relevant files.
+                    </p>
+                    <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click();">
+                        <div class="upload-icon">📁</div>
+                        <div class="upload-text"><strong>Click to upload</strong> or drag & drop files here</div>
+                        <div class="upload-hint">PDF, JPG, PNG, DOC, DWG, XLSX — max 25MB per file</div>
+                    </div>
+                    <div class="file-list" id="fileList"></div>
+                </div>
+
+                <!-- Terms & Conditions -->
+                <div class="section">
+                    <button type="button" class="terms-toggle" id="termsToggle" onclick="toggleTerms()">
+                        <div class="section-title" style="margin-bottom:0;"><span class="icon">📜</span> Terms & Conditions</div>
+                        <span class="arrow">▼</span>
+                    </button>
+                    <div class="terms-content" id="termsContent">
+                        <div class="terms-section">
+                            <h4>Scope of Services</h4>
+                            <p>Oasis Engineering ("Provider") agrees to perform the engineering services described in this agreement. Services are limited to the specific scope outlined herein. Any additional work beyond this scope will require a separate agreement and fee.</p>
+                        </div>
+                        <div class="terms-section">
+                            <h4>Deliverables & Timeline</h4>
+                            <p>All reports, calculations, certificates, and related documents will be delivered electronically (PDF) unless otherwise noted. The estimated completion time is 1–3 business days from project start or data collection, unless otherwise specified. Energy calculations are prepared by a Florida Solar Energy Center (FSEC) certified energy specialist. FEMA Elevation Certificates are prepared and signed/sealed by a licensed Professional Engineer (PE). Matterport 3D tours are delivered as hosted shareable links. If printed deliverables are requested, a $25 shipping and handling fee applies for standard letter-size printed copies.</p>
+                        </div>
+                        <div class="terms-section">
+                            <h4>Client Responsibilities</h4>
+                            <p>Client shall provide accurate and complete project information including, but not limited to: project address, building dimensions, roof geometry, window/door specs or models, HVAC equipment specifications, elevation data, prior surveys, and any relevant construction documents. For site visit services, Client shall provide building access and coordinate scheduling. Inaccurate or incomplete information may result in delays or additional charges. The existing survey, supporting documentation, contractor reports, and project information shall be provided by the Client and may be relied upon by the Engineer.</p>
+                        </div>
+                        <div class="terms-section">
+                            <h4>Service Commitments & Liability</h4>
+                            <p>Standard of Care: The services provided under this contract shall be executed in a manner consistent with the level of care and skill ordinarily exercised by other professionals providing similar services under similar circumstances.</p>
+                            <p style="margin-top:6px;">Indemnification & Limitation of Liability: The Client agrees to indemnify and hold harmless Oasis Engineering, its officers, employees, and agents, from and against any and all claims, damages, liabilities, or expenses, including reasonable attorneys' fees, arising out of or related to the Client's use of the project, the actions of third parties, or the Client's failure to comply with applicable laws or regulations, except to the extent such claims arise directly from the sole negligence or willful misconduct of Oasis Engineering.</p>
+                            <p style="margin-top:6px;">The total liability of Oasis Engineering shall not exceed the total compensation actually paid for the services under this agreement.</p>
+                        </div>
+                        <div class="terms-section">
+                            <h4>Exclusions</h4>
+                            <p>The following items are expressly excluded from this scope unless separately authorized in writing:</p>
+                            <ul>
+                                <li>Removal of drywall, finishes, insulation, or other building components for exploratory or verification purposes</li>
+                                <li>Excavation, soil exposure, or verification of below-grade elements</li>
+                                <li>Destructive testing or invasive investigation of concealed conditions</li>
+                                <li>Re-inspection fees, failed inspection corrections, or contractor rework</li>
+                                <li>Construction supervision, means and methods, or quality control</li>
+                                <li>Guarantee of inspection approval, permit closure, or acceptance by the AHJ</li>
+                                <li>Legal representation, testimony, dispute resolution, or expert witness services</li>
+                                <li>Shop Drawings or drawings of pre-manufactured trusses beyond scope</li>
+                            </ul>
+                        </div>
+                        <div class="terms-section">
+                            <h4>FEMA Elevation Certificate Services</h4>
+                            <p>Where applicable: Flood zone references are based on publicly available FEMA mapping data. This service does not include boundary surveys, topographic surveys, or formal flood zone determinations. A complimentary LOMA (Letter of Map Amendment) qualification review is included; the LOMA application/flood zone removal service itself, if qualified, is a separate engagement and fee. A site visit may be required depending on data availability and will be coordinated with the Client. The Elevation Certificate is prepared and signed/sealed by a licensed Professional Engineer (PE).</p>
+                        </div>
+                        <div class="terms-section">
+                            <h4>Site Visit & Property Scan Services</h4>
+                            <p>Where applicable: On-site inspections are non-invasive and visual only. No removal of drywall, finishes, insulation, flooring, or other building components will be performed. No destructive testing. Matterport 3D tours are hosted on Matterport's platform and subject to their terms of service; a shareable link will be provided. The optional 2D Dimensioned Floor Plan is generated from the Matterport scan and provides approximate wall-to-wall dimensions for reference use only — it is not intended for construction or permitting purposes. Photo documentation includes exterior elevations, foundation elements, visible structural elements, and site conditions as accessible.</p>
+                        </div>
+                        <div class="terms-section">
+                            <h4>Remote Engineering Services</h4>
+                            <p>Unless otherwise agreed in writing, engineering services under this agreement are performed remotely. Oasis Engineering does not provide on-site construction observation, inspection, or quality assurance services. Any required site visits will be scheduled under separate authorization at the hourly rate of $185 per hour, plus travel expenses. A minimum of 72 hours' notice is needed for scheduling. A 4-hour minimum charge applies for in-person site visits.</p>
+                        </div>
+                        <div class="terms-section">
+                            <h4>Other Reimbursements</h4>
+                            <p>Client shall cover all permitting, application, review, inspection, and miscellaneous fees required by the City, County, or Authority Having Jurisdiction (AHJ). Any additional fees or reimbursements must be approved in writing by the Client prior to being incurred. Permitting application, inspections and management to be managed by others; no permitting services are being included herein.</p>
+                        </div>
+                        <div class="terms-section">
+                            <h4>Payment Performance Requirements</h4>
+                            <p>Payment for Engineering Plans becomes due 30 days after delivery to the Client. If any payment under this agreement is more than 30 days late, the Client agrees to pay a late fee of $10.00 per day thereafter. In the event Client fails to pay, Oasis Engineering shall have all rights to claim for Legal, collection, and recovery expenses documented.</p>
+                        </div>
+                        <div class="terms-section">
+                            <h4>Revisions & Change Orders</h4>
+                            <p><strong>Design Phase:</strong> Unlimited revisions while we're designing your project. This phase concludes once you approve the final deliverables.</p>
+                            <p style="margin-top:4px;"><strong>Permitting Phase:</strong> We cover up to 3 revisions or changes if required by the Permitting Department.</p>
+                            <p style="margin-top:4px;"><strong>Construction Phase:</strong> Post-approval changes may incur additional fees. We charge $185 per hour. RFI or Change Orders must be made in writing and signed by both parties.</p>
+                        </div>
+                        <div class="terms-section">
+                            <h4>Terms of Service</h4>
+                            <p><strong>Acceptance:</strong> Accepting the quote via email, signing below, or making a payment constitutes agreement to the terms, making this agreement official.</p>
+                            <p style="margin-top:6px;"><strong>Termination Conditions:</strong> Oasis Engineering or Client may terminate the Agreement upon written notice for:</p>
+                            <ul>
+                                <li>Client has made any false representation, statement, or warranty</li>
+                                <li>Client fails or refuses to provide documents and/or information necessary for the Services</li>
+                                <li>Client fails or refuses to pay for Services rendered</li>
+                                <li>Either party breaches any payment or performance under this Agreement</li>
+                                <li>Either party may terminate for convenience with written notice</li>
+                                <li>This agreement may be terminated if the Client engages in offensive or disrespectful behavior towards Oasis Engineering personnel</li>
+                            </ul>
+                        </div>
+                        <div class="terms-section">
+                            <h4>Code Compliance</h4>
+                            <p>Energy calculations and reports are prepared in accordance with the Florida Building Code (FBC) and Florida Energy Conservation Code. FEMA Elevation Certificates are prepared in accordance with NFIP requirements and current FEMA form standards. Compliance with local amendments, Authority Having Jurisdiction (AHJ) requirements, and contractor installation practices is the responsibility of the Client and their licensed contractor.</p>
+                        </div>
+                        <div class="terms-section">
+                            <h4>Intellectual Property</h4>
+                            <p>All documents and deliverables remain the intellectual property of Oasis Engineering until full payment is received. Upon payment, Client receives a non-exclusive license to use the deliverables for the specific project described herein.</p>
+                        </div>
+                        <div class="terms-section">
+                            <h4>Dispute Resolution</h4>
+                            <p>Any disputes arising from this agreement shall be resolved through mediation in Your County County, Florida, prior to any legal action. This agreement shall be governed by the laws of the State of Florida.</p>
+                        </div>
+                        <a class="terms-download" onclick="downloadTermsPDF()">
+                            📄 Download Full Terms (PDF)
+                        </a>
+                    </div>
+                </div>
+
+                <!-- E-Signature -->
+                <div class="section">
+                    <div class="section-title"><span class="icon">✍️</span> Signature</div>
+                    <p style="font-size:12px; color:var(--oasis-slate); margin-bottom:12px;">
+                        By signing below, I <strong>${inv.client.name}</strong> agree to and accept the terms of this agreement.
+                    </p>
+                    <div class="signature-pad-wrapper" id="sigWrapper">
+                        <canvas id="signatureCanvas"></canvas>
+                        <div class="sig-placeholder">Sign here</div>
+                    </div>
+                    <div class="sig-actions">
+                        <button type="button" onclick="clearSignature()">Clear</button>
+                    </div>
+                </div>
+
+                <!-- Consent & Pay -->
+                <div class="section">
+                    <div class="consent-row">
+                        <input type="checkbox" id="consent" onchange="checkPayReady()">
+                        <label for="consent">
+                            I, <strong>${inv.client.name}</strong>, have reviewed the project information, agree to the Terms & Conditions, and confirm that the information provided is accurate to the best of my knowledge. I authorize Oasis Engineering to perform the described services and agree to pay <strong>$${inv.total.toFixed(2)}</strong>.
+                        </label>
+                    </div>
+                    <button class="pay-btn" id="payBtn" disabled onclick="handlePay()">
+                        Agree & Pay $${inv.total.toFixed(2)} — Secure Checkout
+                    </button>
+                    <div class="secure-note">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                        Powered by Stripe &middot; 256-bit SSL encrypted &middot; Your payment info is never stored on our servers
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Init signature pad
+        initSignaturePad();
+        // Init file upload
+        initFileUpload();
+    }
+
+    // ====================================
+    // TERMS TOGGLE
+    // ====================================
+    function toggleTerms() {
+        const toggle = document.getElementById('termsToggle');
+        const content = document.getElementById('termsContent');
+        toggle.classList.toggle('open');
+        content.classList.toggle('open');
+    }
+
+    // ====================================
+    // FILE UPLOAD
+    // ====================================
+    function initFileUpload() {
+        const zone = document.getElementById('uploadZone');
+        const fileInput = document.getElementById('fileInput');
+
+        if (!zone) return;
+
+        zone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            zone.classList.add('dragover');
+        });
+        zone.addEventListener('dragleave', () => {
+            zone.classList.remove('dragover');
+        });
+        zone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            zone.classList.remove('dragover');
+            handleFiles(e.dataTransfer.files);
+        });
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+            fileInput.value = ''; // reset so same file can be added again
+        });
+    }
+
+    function handleFiles(files) {
+        for (const file of files) {
+            if (file.size > 25 * 1024 * 1024) {
+                alert(`File "${file.name}" is too large (max 25MB).`);
+                continue;
+            }
+            uploadedFiles.push(file);
+        }
+        renderFileList();
+    }
+
+    function renderFileList() {
+        const list = document.getElementById('fileList');
+        if (!list) return;
+
+        list.innerHTML = uploadedFiles.map((file, i) => {
+            const ext = file.name.split('.').pop().toLowerCase();
+            const icons = { pdf: '📄', jpg: '🖼️', jpeg: '🖼️', png: '🖼️', doc: '📝', docx: '📝', dwg: '📐', xlsx: '📊' };
+            const icon = icons[ext] || '📎';
+            const size = file.size < 1024 ? file.size + ' B'
+                : file.size < 1048576 ? (file.size / 1024).toFixed(1) + ' KB'
+                : (file.size / 1048576).toFixed(1) + ' MB';
+
+            return `
+                <div class="file-item">
+                    <span class="file-icon">${icon}</span>
+                    <div class="file-info">
+                        <div class="file-name">${file.name}</div>
+                        <div class="file-size">${size}</div>
+                    </div>
+                    <button class="file-remove" onclick="removeFile(${i})" title="Remove">×</button>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function removeFile(index) {
+        uploadedFiles.splice(index, 1);
+        renderFileList();
+    }
+
+    // ====================================
+    // E-SIGNATURE PAD
+    // ====================================
+    function initSignaturePad() {
+        signatureCanvas = document.getElementById('signatureCanvas');
+        if (!signatureCanvas) return;
+
+        const wrapper = signatureCanvas.parentElement;
+        const rect = wrapper.getBoundingClientRect();
+        signatureCanvas.width = rect.width;
+        signatureCanvas.height = 160;
+
+        signatureCtx = signatureCanvas.getContext('2d');
+        signatureCtx.strokeStyle = '#1a1a1a';
+        signatureCtx.lineWidth = 2.5;
+        signatureCtx.lineCap = 'round';
+        signatureCtx.lineJoin = 'round';
+
+        // Mouse events
+        signatureCanvas.addEventListener('mousedown', startDraw);
+        signatureCanvas.addEventListener('mousemove', draw);
+        signatureCanvas.addEventListener('mouseup', stopDraw);
+        signatureCanvas.addEventListener('mouseleave', stopDraw);
+
+        // Touch events
+        signatureCanvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            startDraw({ offsetX: touch.clientX - signatureCanvas.getBoundingClientRect().left, offsetY: touch.clientY - signatureCanvas.getBoundingClientRect().top });
+        });
+        signatureCanvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            draw({ offsetX: touch.clientX - signatureCanvas.getBoundingClientRect().left, offsetY: touch.clientY - signatureCanvas.getBoundingClientRect().top });
+        });
+        signatureCanvas.addEventListener('touchend', stopDraw);
+
+        // Resize handler
+        window.addEventListener('resize', () => {
+            const newRect = wrapper.getBoundingClientRect();
+            // Save current drawing
+            const imageData = signatureCanvas.toDataURL();
+            signatureCanvas.width = newRect.width;
+            signatureCanvas.height = 160;
+            signatureCtx.strokeStyle = '#1a1a1a';
+            signatureCtx.lineWidth = 2.5;
+            signatureCtx.lineCap = 'round';
+            signatureCtx.lineJoin = 'round';
+            // Restore drawing
+            if (hasSigned) {
+                const img = new Image();
+                img.onload = () => signatureCtx.drawImage(img, 0, 0);
+                img.src = imageData;
+            }
+        });
+    }
+
+    function startDraw(e) {
+        isDrawing = true;
+        signatureCtx.beginPath();
+        signatureCtx.moveTo(e.offsetX, e.offsetY);
+    }
+
+    function draw(e) {
+        if (!isDrawing) return;
+        signatureCtx.lineTo(e.offsetX, e.offsetY);
+        signatureCtx.stroke();
+        hasSigned = true;
+        document.getElementById('sigWrapper').classList.add('has-signature');
+        checkPayReady();
+    }
+
+    function stopDraw() {
+        isDrawing = false;
+    }
+
+    function clearSignature() {
+        if (!signatureCtx || !signatureCanvas) return;
+        signatureCtx.clearRect(0, 0, signatureCanvas.width, signatureCanvas.height);
+        hasSigned = false;
+        document.getElementById('sigWrapper').classList.remove('has-signature');
+        checkPayReady();
+    }
+
+    function getSignatureData() {
+        if (!hasSigned || !signatureCanvas) return null;
+        return signatureCanvas.toDataURL('image/png');
+    }
+
+    // ====================================
+    // CLIENT ADD-ON TOGGLE
+    // ====================================
+    function toggleClientAddon(id) {
+        const addon = CLIENT_ADDONS.find(a => a.id === id);
+        if (!addon) return;
+
+        const card = document.getElementById('client-addon-' + id);
+        if (selectedClientAddons[id]) {
+            delete selectedClientAddons[id];
+            card.classList.remove('selected');
+        } else {
+            selectedClientAddons[id] = addon;
+            card.classList.add('selected');
+        }
+        updateTotalWithAddons();
+    }
+
+    function getAddonTotal() {
+        return Object.values(selectedClientAddons).reduce((sum, a) => sum + a.price, 0);
+    }
+
+    function getGrandTotal() {
+        const inv = getInvoice();
+        return inv.total + getAddonTotal();
+    }
+
+    function updateTotalWithAddons() {
+        const inv = getInvoice();
+        const addonTotal = getAddonTotal();
+        const grandTotal = inv.total + addonTotal;
+
+        // Update total display
+        const totalEl = document.getElementById('totalDisplay');
+        if (totalEl) totalEl.textContent = '$' + grandTotal.toFixed(2);
+
+        // Update pay button text
+        const payBtn = document.getElementById('payBtn');
+        if (payBtn && !payBtn.disabled) {
+            payBtn.textContent = `Agree & Pay $${grandTotal.toFixed(2)} — Secure Checkout`;
+        } else if (payBtn) {
+            payBtn.textContent = `Agree & Pay $${grandTotal.toFixed(2)} — Secure Checkout`;
+        }
+
+        // Update consent label amount
+        const consentLabel = document.querySelector('.consent-row label strong:last-of-type');
+        // Update is visual only — actual charge uses getGrandTotal() at payment time
+    }
+
+    // ====================================
+    // PAY READINESS CHECK
+    // ====================================
+    function checkPayReady() {
+        const consentChecked = document.getElementById('consent')?.checked || false;
+        const btn = document.getElementById('payBtn');
+        if (btn) {
+            btn.disabled = !(consentChecked && hasSigned);
+        }
+    }
+
+    // ====================================
+    // HANDLE PAYMENT
+    // ====================================
+    function handlePay() {
+        const btn = document.getElementById('payBtn');
+        btn.textContent = 'Processing...';
+        btn.disabled = true;
+
+        const inv = getInvoice();
+
+        // Collect intake data from form
+        const intakeData = {
+            project_type: document.getElementById('intake_project_type')?.value || '',
+            sqft: document.getElementById('intake_sqft')?.value || '',
+            system_type: document.getElementById('intake_system_type')?.value || '',
+            ductwork_status: document.getElementById('intake_ductwork_status')?.value || '',
+            duct_location: document.getElementById('intake_duct_location')?.value || '',
+            hvac_info: document.getElementById('intake_hvac_info')?.value || '',
+            wall_insulation: document.getElementById('intake_wall_insulation')?.value || '',
+            ceiling_insulation: document.getElementById('intake_ceiling_insulation')?.value || '',
+            notes: document.getElementById('intake_notes')?.value || ''
+        };
+
+        // Collect selected client add-ons
+        const clientAddons = Object.values(selectedClientAddons).map(a => ({
+            id: a.id,
+            name: a.name,
+            price: a.price
+        }));
+
+        // Save intake + signature + addons data before redirecting to Stripe
+        const saveData = {
+            invoice_id: inv.id,
+            intake: intakeData,
+            signature: getSignatureData(),
+            files_count: uploadedFiles.length,
+            client_addons: clientAddons,
+            grand_total: getGrandTotal()
+        };
+
+        // Upload files if any
+        if (uploadedFiles.length > 0) {
+            const formData = new FormData();
+            formData.append('invoice_id', inv.id);
+            formData.append('intake', JSON.stringify(intakeData));
+            formData.append('signature', getSignatureData() || '');
+            uploadedFiles.forEach((file, i) => {
+                formData.append('files[]', file);
+            });
+
+            fetch('/api/upload-files.php', {
+                method: 'POST',
+                body: formData
+            }).then(() => {
+                redirectToStripe(inv, btn);
+            }).catch(() => {
+                // Still redirect to payment even if upload fails
+                redirectToStripe(inv, btn);
+            });
+        } else {
+            // Save intake + signature without files
+            fetch('/api/save-intake.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(saveData)
+            }).then(() => {
+                redirectToStripe(inv, btn);
+            }).catch(() => {
+                redirectToStripe(inv, btn);
+            });
+        }
+    }
+
+    function redirectToStripe(inv, btn) {
+        if (inv.stripeSessionUrl) {
+            window.location.href = inv.stripeSessionUrl;
+            return;
+        }
+
+        fetch('/api/create-checkout.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ invoice_id: inv.id })
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (data.url) {
+                window.location.href = data.url;
+            } else {
+                alert('Error creating checkout session. Please try again.');
+                btn.textContent = `Agree & Pay $${inv.total.toFixed(2)} — Secure Checkout`;
+                btn.disabled = false;
+            }
+        })
+        .catch(() => {
+            alert('Connection error. Please try again.');
+            btn.textContent = `Agree & Pay $${inv.total.toFixed(2)} — Secure Checkout`;
+            btn.disabled = false;
+        });
+    }
+
+    // ====================================
+    // DOWNLOAD TERMS PDF (client-side)
+    // ====================================
+    function downloadTermsPDF() {
+        // Open terms in a printable window
+        const termsEl = document.getElementById('termsContent');
+        const inv = getInvoice();
+
+        // If terms aren't on page (e.g. paid state), generate them inline
+        const termsHtml = termsEl ? termsEl.innerHTML : getTermsHtml();
+        const w = window.open('', '_blank');
+        w.document.write(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Oasis Engineering — Terms & Conditions</title>
+                <style>
+                    body { font-family: Georgia, serif; max-width: 700px; margin: 40px auto; padding: 20px; color: #1a1a1a; line-height: 1.8; }
+                    h4 { margin-top: 20px; font-size: 14px; }
+                    p, li { font-size: 12px; }
+                    ul { padding-left: 24px; }
+                    .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #2c5fa8; padding-bottom: 20px; }
+                    .header h1 { color: #2c5fa8; font-size: 22px; margin: 0; }
+                    .header p { color: #666; font-size: 12px; }
+                    .terms-download, .terms-section a { display: none; }
+                    @media print { body { margin: 0; } }
+                </style>
+            </head>
+            <body>
+                <div class="header">
+                    <h1>Oasis Engineering</h1>
+                    <p>Service Agreement — Terms & Conditions</p>
+                    <p>Invoice #${inv.id} &middot; ${inv.client.name} &middot; ${inv.project.address}</p>
+                </div>
+                ${termsHtml}
+                <script>window.print();<\/script>
+            </body>
+            </html>
+        `);
+        w.document.close();
+    }
+
+    // ====================================
+    // DOWNLOAD SIGNED AGREEMENT (client-side PDF)
+    // ====================================
+    function downloadSignedAgreement() {
+        const inv = getInvoice();
+        const intake = inv.intake || {};
+        const today = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+
+        // Build line items table
+        const lineItemsRows = (inv.lineItems || [])
+            .filter(li => li.amount > 0)
+            .map(li => `<tr><td style="padding:6px 0; border-bottom:1px solid #eee;">${li.description}</td><td style="padding:6px 0; border-bottom:1px solid #eee; text-align:right; font-weight:600;">$${li.amount.toFixed(2)}</td></tr>`)
+            .join('');
+
+        // Deliverables
+        const allDels = [];
+        (inv.lineItems || []).forEach(li => {
+            if (li.deliverables) li.deliverables.forEach(d => { if (!allDels.includes(d)) allDels.push(d); });
+        });
+
+        // Signature image (if available from server data)
+        const sigHtml = inv.signature_data
+            ? `<div style="margin-top:30px; padding-top:20px; border-top:1px solid #ccc;">
+                    <p style="font-size:11px; color:#666; margin-bottom:8px;">Client Signature:</p>
+                    <img src="${inv.signature_data}" style="max-width:300px; height:80px; object-fit:contain;">
+                    <p style="font-size:12px; margin-top:6px;"><strong>${inv.client.name}</strong></p>
+                    <p style="font-size:11px; color:#666;">Signed electronically on ${today}</p>
+               </div>`
+            : `<div style="margin-top:30px; padding-top:20px; border-top:1px solid #ccc;">
+                    <p style="font-size:12px;"><strong>${inv.client.name}</strong></p>
+                    <p style="font-size:11px; color:#666;">Agreement accepted electronically on ${today}</p>
+               </div>`;
+
+        const w = window.open('', '_blank');
+        w.document.write(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Oasis Engineering — Signed Agreement ${inv.id}</title>
+                <style>
+                    body { font-family: Georgia, serif; max-width: 700px; margin: 30px auto; padding: 20px; color: #1a1a1a; line-height: 1.7; font-size: 12px; }
+                    .logo-header { text-align: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 3px solid #2c5fa8; }
+                    .logo-header h1 { color: #2c5fa8; font-size: 24px; margin: 0 0 4px; }
+                    .logo-header .subtitle { color: #666; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
+                    .logo-header .contact { color: #888; font-size: 10px; margin-top: 6px; }
+                    .doc-title { font-size: 18px; font-weight: bold; color: #1a1a1a; margin: 20px 0 6px; text-align: center; }
+                    .doc-subtitle { font-size: 12px; color: #666; text-align: center; margin-bottom: 24px; }
+                    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+                    .info-item label { display: block; font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-bottom: 2px; }
+                    .info-item p { font-size: 12px; font-weight: 600; margin: 0; }
+                    .info-full { grid-column: 1 / -1; }
+                    table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+                    th { text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: #888; padding: 6px 0; border-bottom: 2px solid #1a1a1a; }
+                    th:last-child { text-align: right; }
+                    .total-row td { padding: 10px 0; border-top: 2px solid #1a1a1a; font-weight: bold; font-size: 14px; }
+                    .total-row td:last-child { color: #2c5fa8; }
+                    .del-list { background: #f5f5f5; padding: 12px 16px; border-radius: 6px; margin: 14px 0; }
+                    .del-list .del-title { font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: #888; margin-bottom: 6px; font-weight: 600; }
+                    .del-list .del-item { font-size: 11px; padding: 2px 0; }
+                    .del-list .del-item::before { content: "✓ "; color: #2c5fa8; font-weight: bold; }
+                    .terms-section { margin: 14px 0; }
+                    .terms-section h4 { font-size: 12px; margin-bottom: 3px; }
+                    .terms-section p { font-size: 10.5px; color: #444; }
+                    .terms-section ul { padding-left: 18px; font-size: 10.5px; color: #444; }
+                    .terms-section ul li { margin-bottom: 2px; }
+                    .page-break { page-break-before: always; }
+                    @media print { body { margin: 0; } }
+                </style>
+            </head>
+            <body>
+                <div class="logo-header">
+                    <h1>Oasis Engineering</h1>
+                    <div class="subtitle">Energy Calculation Services — FSEC Certified</div>
+                    <div class="contact">3702 W Spruce St, #1033 Your City, ST 33607 &middot; 555-123-4567 &middot; info@yourcompany.com</div>
+                </div>
+
+                <div class="doc-title">Service Agreement</div>
+                <div class="doc-subtitle">Invoice #${inv.id} &middot; ${today}</div>
+
+                <div class="info-grid">
+                    <div class="info-item">
+                        <label>Prepared For</label>
+                        <p>${inv.client.name}</p>
+                    </div>
+                    <div class="info-item">
+                        <label>Email</label>
+                        <p>${inv.client.email}</p>
+                    </div>
+                    <div class="info-item info-full">
+                        <label>Project Address</label>
+                        <p>${inv.project.address}</p>
+                    </div>
+                    <div class="info-item">
+                        <label>Jurisdiction</label>
+                        <p>${inv.project.county || '—'}</p>
+                    </div>
+                    <div class="info-item">
+                        <label>Service</label>
+                        <p>${inv.project.type}</p>
+                    </div>
+                    ${intake.project_type ? `<div class="info-item"><label>Project Type</label><p>${intake.project_type}</p></div>` : ''}
+                    ${intake.sqft ? `<div class="info-item"><label>Square Footage</label><p>${intake.sqft} sq ft</p></div>` : ''}
+                    ${intake.system_type ? `<div class="info-item"><label>System Type</label><p>${intake.system_type}</p></div>` : ''}
+                    ${intake.ductwork_status ? `<div class="info-item"><label>Ductwork</label><p>${intake.ductwork_status}</p></div>` : ''}
+                    ${intake.wall_insulation ? `<div class="info-item"><label>Wall Insulation</label><p>${intake.wall_insulation}</p></div>` : ''}
+                    ${intake.ceiling_insulation ? `<div class="info-item"><label>Ceiling Insulation</label><p>${intake.ceiling_insulation}</p></div>` : ''}
+                    ${intake.notes ? `<div class="info-item info-full"><label>Notes</label><p style="font-weight:400;">${intake.notes}</p></div>` : ''}
+                </div>
+
+                <table>
+                    <tr><th>Service</th><th>Amount</th></tr>
+                    ${lineItemsRows}
+                    ${inv.discount && inv.discount.amount > 0 ? `<tr><td style="padding:6px 0; color:#dc2626;">Discount${inv.discount.type === 'percent' ? ' (' + inv.discount.value + '%)' : ''}</td><td style="padding:6px 0; text-align:right; color:#dc2626;">−$${inv.discount.amount.toFixed(2)}</td></tr>` : ''}
+                    <tr class="total-row"><td>Total</td><td style="text-align:right;">$${inv.total.toFixed(2)}</td></tr>
+                </table>
+
+                ${allDels.length > 0 ? `
+                    <div class="del-list">
+                        <div class="del-title">Deliverables Included</div>
+                        ${allDels.map(d => `<div class="del-item">${d}</div>`).join('')}
+                    </div>
+                ` : ''}
+
+                <p style="font-size:11px; color:#666; margin: 16px 0 8px;">Estimated delivery: 1-3 business days from project start. All deliverables provided electronically (PDF).</p>
+
+                ${sigHtml}
+
+                <!-- Page 2: Terms -->
+                <div class="page-break"></div>
+                <div class="logo-header">
+                    <h1>Oasis Engineering</h1>
+                    <div class="subtitle">Terms & Conditions</div>
+                </div>
+
+                <div class="terms-section">
+                    <h4>Scope of Services</h4>
+                    <p>Oasis Engineering agrees to perform the energy calculation services described in this agreement. Services are limited to the specific scope outlined herein.</p>
+                </div>
+                <div class="terms-section">
+                    <h4>Deliverables & Timeline</h4>
+                    <p>Energy calculations, reports, and related documents will be delivered electronically (PDF). Estimated 1-3 business days from project start. Energy calculations are prepared by a FSEC certified energy specialist. Printed deliverables: $25 shipping & handling for standard letter-size copies.</p>
+                </div>
+                <div class="terms-section">
+                    <h4>Client Responsibilities</h4>
+                    <p>Client shall provide accurate and complete project information. Inaccurate or incomplete information may result in delays or additional charges.</p>
+                </div>
+                <div class="terms-section">
+                    <h4>Limitation of Liability</h4>
+                    <p>The total liability of Oasis Engineering shall not exceed the total compensation paid for services under this agreement. Client agrees to indemnify and hold harmless Oasis Engineering from claims arising from misuse of deliverables.</p>
+                </div>
+                <div class="terms-section">
+                    <h4>Revisions</h4>
+                    <p>Design Phase: Unlimited revisions. Permitting Phase: Up to 3 revisions included. Post-approval changes: $185/hour.</p>
+                </div>
+                <div class="terms-section">
+                    <h4>Payment Terms</h4>
+                    <p>Payment due 30 days after delivery. Late fee of $10/day after 30 days. All documents remain property of Oasis Engineering until paid in full.</p>
+                </div>
+                <div class="terms-section">
+                    <h4>Code Compliance</h4>
+                    <p>Reports prepared per Florida Building Code and Florida Energy Conservation Code. Local compliance is the responsibility of Client and their contractor.</p>
+                </div>
+                <div class="terms-section">
+                    <h4>Dispute Resolution</h4>
+                    <p>Disputes resolved through mediation in Your County County, FL. Governed by the laws of the State of Florida.</p>
+                </div>
+
+                <p style="font-size:10px; color:#aaa; margin-top:30px; text-align:center;">&copy; ${new Date().getFullYear()} Oasis Engineering &middot; yourcompany.com</p>
+
+                <script>window.print();<\/script>
+            </body>
+            </html>
+        `);
+        w.document.close();
+    }
+
+    // ====================================
+    // HELPERS
+    // ====================================
+    function getTermsHtml() {
+        return `
+            <div class="terms-section"><h4>Scope of Services</h4><p>Oasis Engineering agrees to perform the engineering and professional services described in this agreement. Services are limited to the specific scope outlined herein.</p></div>
+            <div class="terms-section"><h4>Deliverables & Timeline</h4><p>All reports, calculations, certificates, and documents delivered electronically (PDF) unless otherwise noted. Estimated 1-3 business days. Energy calculations by FSEC certified specialist. FEMA Elevation Certificates signed/sealed by PE. Matterport 3D tours delivered as hosted links. Printed deliverables: $25 shipping & handling.</p></div>
+            <div class="terms-section"><h4>Client Responsibilities</h4><p>Client shall provide accurate and complete project information. For site visits, Client shall provide building access. Inaccurate or incomplete information may result in delays or additional charges.</p></div>
+            <div class="terms-section"><h4>FEMA Elevation Certificate</h4><p>Where applicable: Flood zone references based on public FEMA mapping. Does not include boundary/topographic surveys. LOMA qualification review included; LOMA application is a separate service. Signed/sealed by PE.</p></div>
+            <div class="terms-section"><h4>Site Visit & Property Scan</h4><p>Where applicable: Non-invasive visual inspections only. Matterport 3D tours hosted on Matterport platform. Optional 2D Floor Plan is approximate and for reference only, not for construction or permitting.</p></div>
+            <div class="terms-section"><h4>Limitation of Liability</h4><p>Total liability shall not exceed compensation paid for services. Client agrees to indemnify and hold harmless Oasis Engineering from claims arising from misuse of deliverables.</p></div>
+            <div class="terms-section"><h4>Revisions</h4><p>Design Phase: Unlimited. Permitting Phase: Up to 3 revisions. Post-approval: $185/hour.</p></div>
+            <div class="terms-section"><h4>Payment Terms</h4><p>Due 30 days after delivery. Late fee: $10/day after 30 days. Documents remain property of Oasis Engineering until paid in full.</p></div>
+            <div class="terms-section"><h4>Code Compliance</h4><p>Energy reports per Florida Building Code and Energy Conservation Code. FEMA Elevation Certificates per NFIP and current FEMA standards. Local compliance is the responsibility of Client and their contractor.</p></div>
+            <div class="terms-section"><h4>Dispute Resolution</h4><p>Mediation in Your County County, FL. Governed by Florida law.</p></div>
+        `;
+    }
+
+    function formatDate(dateStr) {
+        if (!dateStr) return '';
+        const d = new Date(dateStr + 'T00:00:00');
+        return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    }
+
+    // ====================================
+    // INIT
+    // ====================================
+    const inv = getInvoice();
+    if (inv) {
+        renderInvoice(inv);
+    } else {
+        document.getElementById('app').innerHTML = `
+            <div style="text-align:center; padding:60px 20px;">
+                <h2 style="font-family:'Fraunces',serif; color:var(--oasis-blue);">Invoice Not Found</h2>
+                <p style="color:var(--oasis-slate); margin-top:12px;">This invoice may have expired or been removed.</p>
+                <p style="margin-top:16px;"><a href="https://yourcompany.com" style="color:var(--oasis-blue);">yourcompany.com</a></p>
+            </div>
+        `;
+    }
+</script>
+
+</body>
+</html>

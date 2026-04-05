@@ -1,0 +1,1823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oasis Energy Portal — Create Invoice</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --oasis-blue: #2c5fa8;
+            --oasis-blue-light: #e8eff8;
+            --oasis-blue-dark: #1e3f6f;
+            --oasis-green: #1a6b4a;
+            --oasis-green-light: #e8f5ee;
+            --oasis-sand: #f7f3ed;
+            --oasis-sand-dark: #e8e0d4;
+            --oasis-charcoal: #1a1a1a;
+            --oasis-slate: #4a5568;
+            --oasis-white: #ffffff;
+            --radius: 12px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #0f1117;
+            color: var(--oasis-white);
+            min-height: 100vh;
+        }
+
+        /* --- Header --- */
+        .admin-header {
+            background: var(--oasis-blue-dark);
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .admin-header .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .admin-header .brand img {
+            height: 36px;
+            filter: brightness(0) invert(1);
+        }
+        .admin-header .brand span {
+            font-size: 11px;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .admin-header .user-badge {
+            background: rgba(255,255,255,0.1);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
+        .admin-nav {
+            background: rgba(255,255,255,0.03);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            padding: 0 24px;
+            display: flex;
+            gap: 0;
+        }
+        .admin-nav a {
+            color: rgba(255,255,255,0.5);
+            text-decoration: none;
+            padding: 14px 20px;
+            font-size: 13px;
+            font-weight: 500;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        .admin-nav a.active {
+            color: var(--oasis-white);
+            border-bottom-color: var(--oasis-blue);
+        }
+        .admin-nav a:hover { color: var(--oasis-white); }
+
+        /* --- Main Layout --- */
+        .admin-main {
+            max-width: 900px;
+            margin: 24px auto;
+            padding: 0 20px;
+        }
+        .page-title {
+            font-family: 'Fraunces', serif;
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .page-subtitle {
+            color: rgba(255,255,255,0.45);
+            font-size: 13px;
+            margin-bottom: 28px;
+        }
+
+        /* --- Form Cards --- */
+        .form-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+        .form-card-title {
+            font-family: 'Fraunces', serif;
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .form-card-title .num {
+            width: 24px;
+            height: 24px;
+            background: var(--oasis-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+        .form-row.tri { grid-template-columns: 1fr 1fr 1fr; }
+        .form-row.full { grid-template-columns: 1fr; }
+        @media (max-width: 600px) {
+            .form-row, .form-row.tri { grid-template-columns: 1fr; }
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: 500;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: var(--oasis-white);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px;
+            transition: border-color 0.2s;
+        }
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255,255,255,0.2);
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--oasis-blue);
+            background: rgba(255,255,255,0.08);
+        }
+        .form-group select option {
+            background: var(--oasis-charcoal);
+            color: var(--oasis-white);
+        }
+        .form-group textarea { resize: vertical; min-height: 60px; }
+
+        /* --- Service Menu (Quotient-style) --- */
+        .service-menu {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        @media (max-width: 600px) {
+            .service-menu { grid-template-columns: 1fr; }
+        }
+
+        .service-card {
+            background: rgba(255,255,255,0.03);
+            border: 2px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            padding: 14px 16px;
+            cursor: pointer;
+            transition: all 0.15s;
+            position: relative;
+        }
+        .service-card:hover {
+            border-color: rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.06);
+        }
+        .service-card.selected {
+            border-color: var(--oasis-blue);
+            background: rgba(44,95,168,0.12);
+        }
+        .service-card .svc-name {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .service-card .svc-check {
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            flex-shrink: 0;
+            transition: all 0.15s;
+        }
+        .service-card.selected .svc-check {
+            background: var(--oasis-blue);
+            border-color: var(--oasis-blue);
+        }
+        .service-card .svc-desc {
+            font-size: 11px;
+            color: rgba(255,255,255,0.4);
+            margin-left: 26px;
+            line-height: 1.5;
+        }
+        .service-card .svc-price-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+            margin-left: 26px;
+        }
+        .service-card .svc-price-input {
+            width: 90px;
+            padding: 5px 8px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 6px;
+            color: #6ee7a8;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .service-card .svc-price-input:focus {
+            outline: none;
+            border-color: var(--oasis-blue);
+        }
+        .service-card .svc-default {
+            font-size: 10px;
+            color: rgba(255,255,255,0.3);
+        }
+
+        /* --- Add-ons row --- */
+        .addon-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            background: rgba(255,255,255,0.03);
+            border: 1px dashed rgba(255,255,255,0.12);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .addon-row:hover {
+            border-color: rgba(255,255,255,0.25);
+        }
+        .addon-row.selected {
+            border-color: var(--oasis-blue);
+            border-style: solid;
+            background: rgba(44,95,168,0.08);
+        }
+        .addon-row .addon-check {
+            width: 16px; height: 16px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 3px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 10px; flex-shrink: 0; transition: all 0.15s;
+        }
+        .addon-row.selected .addon-check {
+            background: var(--oasis-blue);
+            border-color: var(--oasis-blue);
+        }
+        .addon-row .addon-info { flex: 1; }
+        .addon-row .addon-name { font-size: 13px; font-weight: 500; }
+        .addon-row .addon-desc { font-size: 11px; color: rgba(255,255,255,0.35); }
+        .addon-row .addon-price-input {
+            width: 80px;
+            padding: 5px 8px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 6px;
+            color: #6ee7a8;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: right;
+        }
+        .addon-row .addon-price-input:focus {
+            outline: none; border-color: var(--oasis-blue);
+        }
+
+        /* --- Intake Prepopulation --- */
+        .intake-note {
+            font-size: 11px;
+            color: rgba(255,255,255,0.35);
+            margin-bottom: 14px;
+            padding: 8px 12px;
+            background: rgba(44,95,168,0.1);
+            border-radius: 6px;
+            border-left: 3px solid var(--oasis-blue);
+        }
+
+        /* --- Fee Preview --- */
+        .fee-preview {
+            background: rgba(44,95,168,0.12);
+            border: 1px solid rgba(44,95,168,0.25);
+            border-radius: 10px;
+            padding: 18px;
+            margin-top: 4px;
+        }
+        .fee-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            font-size: 12px;
+            color: rgba(255,255,255,0.6);
+        }
+        .fee-row.total {
+            border-top: 1px solid rgba(255,255,255,0.12);
+            margin-top: 6px;
+            padding-top: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--oasis-white);
+        }
+        .fee-row .highlight { color: #6ee7a8; font-weight: 600; }
+
+        /* --- Discount --- */
+        .discount-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 12px;
+        }
+        .discount-row label {
+            font-size: 12px;
+            color: rgba(255,255,255,0.5);
+            white-space: nowrap;
+        }
+        .discount-row input {
+            width: 70px;
+            padding: 6px 8px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 6px;
+            color: #f87171;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .discount-row input:focus { outline: none; border-color: var(--oasis-blue); }
+        .discount-row select {
+            padding: 6px 8px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 6px;
+            color: var(--oasis-white);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 12px;
+        }
+        .discount-row select option { background: #1a1a1a; }
+
+        /* --- Actions --- */
+        .actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+        .btn-primary {
+            flex: 1;
+            padding: 15px;
+            background: var(--oasis-blue);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-primary:hover {
+            background: var(--oasis-blue-dark);
+            transform: translateY(-1px);
+        }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .btn-secondary {
+            padding: 15px 24px;
+            background: transparent;
+            color: rgba(255,255,255,0.6);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: var(--radius);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-secondary:hover {
+            border-color: rgba(255,255,255,0.3);
+            color: var(--oasis-white);
+        }
+
+        /* --- Modal --- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.75);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: #1a1e2a;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: var(--radius);
+            padding: 32px;
+            max-width: 460px;
+            width: 100%;
+            text-align: center;
+        }
+        .modal .check {
+            width: 52px; height: 52px;
+            background: var(--oasis-blue);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 26px; margin: 0 auto 18px;
+        }
+        .modal h3 {
+            font-family: 'Fraunces', serif;
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+        .modal p {
+            font-size: 12px;
+            color: rgba(255,255,255,0.55);
+            margin-bottom: 6px;
+            line-height: 1.6;
+        }
+        .link-box {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin: 18px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .link-box input {
+            flex: 1; background: none; border: none;
+            color: #6ee7a8;
+            font-family: 'DM Sans', sans-serif; font-size: 12px; outline: none;
+        }
+        .link-box button {
+            padding: 6px 14px; background: var(--oasis-blue);
+            color: white; border: none; border-radius: 6px;
+            font-size: 12px; font-weight: 600; cursor: pointer;
+        }
+
+        /* --- Recent Table --- */
+        .recent-table { width: 100%; margin-top: 28px; }
+        .recent-header {
+            display: flex; justify-content: space-between;
+            align-items: center; margin-bottom: 14px;
+        }
+        .recent-header h3 {
+            font-family: 'Fraunces', serif; font-size: 17px;
+        }
+        .table-row {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr 0.8fr 0.8fr;
+            gap: 12px; padding: 12px 14px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 8px; margin-bottom: 5px;
+            font-size: 12px; align-items: center;
+        }
+        .table-row.header {
+            background: none; border: none;
+            font-size: 10px; text-transform: uppercase;
+            letter-spacing: 0.5px; color: rgba(255,255,255,0.35);
+            padding: 6px 14px;
+        }
+        .status { padding: 3px 10px; border-radius: 12px; font-size: 10px; font-weight: 600; text-align: center; }
+        .status.paid { background: rgba(26,107,74,0.2); color: #6ee7a8; }
+        .status.pending { background: rgba(234,179,8,0.15); color: #fbbf24; }
+        .status.expired { background: rgba(220,38,38,0.15); color: #f87171; }
+
+        /* --- Collapsible section toggle --- */
+        .toggle-btn {
+            background: none; border: none; color: rgba(255,255,255,0.4);
+            font-size: 11px; cursor: pointer; padding: 4px 0;
+            text-decoration: underline; margin-top: 4px;
+        }
+        .toggle-btn:hover { color: rgba(255,255,255,0.7); }
+
+        /* --- Tab Views --- */
+        .tab-view { display: none; }
+        .tab-view.active { display: block; }
+
+        /* --- History Table --- */
+        .history-table { width: 100%; }
+        .history-row {
+            display: grid;
+            grid-template-columns: 0.9fr 1.3fr 1.5fr 0.7fr 0.7fr 0.5fr;
+            gap: 10px; padding: 11px 14px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 8px; margin-bottom: 5px;
+            font-size: 12px; align-items: center;
+        }
+        .history-row.header {
+            background: none; border: none; font-size: 10px;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            color: rgba(255,255,255,0.35); padding: 6px 14px;
+        }
+        .history-row a {
+            color: var(--oasis-blue); text-decoration: none; font-size: 11px;
+        }
+        .history-row a:hover { text-decoration: underline; }
+        .history-stats {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 12px; margin-bottom: 24px;
+        }
+        .stat-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px; padding: 18px;
+        }
+        .stat-card .stat-label {
+            font-size: 10px; text-transform: uppercase;
+            letter-spacing: 0.5px; color: rgba(255,255,255,0.4);
+            margin-bottom: 6px;
+        }
+        .stat-card .stat-value {
+            font-family: 'Fraunces', serif; font-size: 24px; font-weight: 700;
+        }
+        .stat-card .stat-value.green { color: #6ee7a8; }
+        .stat-card .stat-value.yellow { color: #fbbf24; }
+        .stat-card .stat-value.blue { color: #60a5fa; }
+        @media (max-width: 600px) {
+            .history-stats { grid-template-columns: 1fr 1fr; }
+            .history-row { grid-template-columns: 1fr 1fr 1fr; font-size: 11px; }
+            .history-row .hide-mobile { display: none; }
+        }
+
+        /* --- Settings --- */
+        .setting-group {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: var(--radius);
+            padding: 24px; margin-bottom: 16px;
+        }
+        .setting-group h3 {
+            font-family: 'Fraunces', serif; font-size: 15px;
+            margin-bottom: 16px; font-weight: 600;
+        }
+        .setting-row {
+            display: flex; justify-content: space-between;
+            align-items: center; padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .setting-row:last-child { border-bottom: none; }
+        .setting-row .setting-info { flex: 1; }
+        .setting-row .setting-label { font-size: 13px; font-weight: 500; }
+        .setting-row .setting-desc { font-size: 11px; color: rgba(255,255,255,0.4); }
+        .setting-row .setting-value {
+            font-size: 12px; color: rgba(255,255,255,0.6);
+            background: rgba(255,255,255,0.06);
+            padding: 6px 12px; border-radius: 6px;
+            font-family: 'DM Sans', monospace;
+        }
+        .setting-row .setting-badge {
+            padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: 600;
+        }
+        .setting-badge.connected { background: rgba(26,107,74,0.2); color: #6ee7a8; }
+        .setting-badge.disconnected { background: rgba(220,38,38,0.15); color: #f87171; }
+
+        /* --- Airtable Tab --- */
+        .at-toolbar {
+            display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; align-items: center;
+        }
+        .at-toolbar .btn-pull {
+            background: var(--oasis-blue); color: #fff; border: none; padding: 10px 20px;
+            border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer;
+            font-family: 'DM Sans', sans-serif; transition: opacity 0.2s;
+        }
+        .at-toolbar .btn-pull:hover { opacity: 0.85; }
+        .at-toolbar .btn-pull:disabled { opacity: 0.5; cursor: not-allowed; }
+        .at-toolbar .at-status { font-size: 12px; color: rgba(255,255,255,0.5); margin-left: auto; }
+        .at-card {
+            background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+            border-radius: var(--radius); padding: 18px; margin-bottom: 12px;
+            transition: border-color 0.2s;
+        }
+        .at-card:hover { border-color: rgba(255,255,255,0.15); }
+        .at-card-header {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            margin-bottom: 10px;
+        }
+        .at-card-title { font-weight: 600; font-size: 14px; }
+        .at-card-badge {
+            padding: 3px 10px; border-radius: 10px; font-size: 11px; font-weight: 600; white-space: nowrap;
+        }
+        .at-card-badge.proposal { background: rgba(59,130,246,0.15); color: #93c5fd; }
+        .at-card-badge.accepted { background: rgba(20,184,166,0.15); color: #5eead4; }
+        .at-card-badge.paid { background: rgba(26,107,74,0.2); color: #6ee7a8; }
+        .at-card-badge.pending { background: rgba(234,179,8,0.15); color: #fde047; }
+        .at-card-badge.draft { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.5); }
+        .at-card-body { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 20px; font-size: 12px; }
+        .at-card-body .at-label { color: rgba(255,255,255,0.4); }
+        .at-card-body .at-value { color: rgba(255,255,255,0.85); }
+        .at-card-actions {
+            margin-top: 14px; padding-top: 12px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            display: flex; gap: 8px; flex-wrap: wrap;
+        }
+        .at-card-actions button {
+            padding: 7px 16px; border-radius: 6px; font-size: 12px; font-weight: 600;
+            border: none; cursor: pointer; font-family: 'DM Sans', sans-serif;
+            transition: opacity 0.2s;
+        }
+        .at-card-actions button:hover { opacity: 0.85; }
+        .at-card-actions .btn-import { background: var(--oasis-blue); color: #fff; }
+        .at-card-actions .btn-accept { background: rgba(20,184,166,0.2); color: #5eead4; }
+        .at-card-actions .btn-view { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.7); }
+        .at-empty {
+            text-align: center; padding: 40px 20px; color: rgba(255,255,255,0.3); font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+
+<header class="admin-header">
+    <div class="brand">
+        <img src="OasisLogo.PNG" alt="Oasis Engineering">
+        <span>Energy Portal</span>
+    </div>
+    <div class="user-badge">Eng. Team</div>
+</header>
+
+<nav class="admin-nav" id="adminNav">
+    <a href="#" class="active" onclick="switchTab('new', this); return false;">New Invoice</a>
+    <a href="#" onclick="switchTab('history', this); return false;">History</a>
+    <a href="#" onclick="switchTab('airtable', this); return false;">Airtable</a>
+    <a href="#" onclick="switchTab('settings', this); return false;">Settings</a>
+</nav>
+
+<main class="admin-main">
+
+<!-- ========== TAB: NEW INVOICE ========== -->
+<div class="tab-view active" id="tab-new">
+    <h2 class="page-title">Quick Invoice</h2>
+    <p class="page-subtitle">Click services, set prices, fill client info — done in 30 seconds.</p>
+
+    <form id="invoiceForm" onsubmit="return handleSubmit(event)">
+
+        <!-- Step 1: Services -->
+        <div class="form-card">
+            <div class="form-card-title"><span class="num">1</span> Select Services</div>
+
+            <div class="service-menu" id="serviceMenu">
+                <!-- Populated by JS -->
+            </div>
+
+            <div style="margin-top:14px;">
+                <div style="font-size:12px; font-weight:600; color:rgba(255,255,255,0.5); margin-bottom:10px; text-transform:uppercase; letter-spacing:0.5px;">Optional Add-ons</div>
+                <div id="addonList">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- Custom line item -->
+            <button type="button" class="toggle-btn" onclick="toggleCustomLine()" style="margin-top:8px;">+ Add custom line item</button>
+            <div id="customLineSection" style="display:none; margin-top:10px;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Description</label>
+                        <input type="text" id="customDesc" placeholder="Additional service...">
+                    </div>
+                    <div class="form-group">
+                        <label>Price ($)</label>
+                        <input type="number" id="customPrice" placeholder="0" step="0.01" oninput="recalcTotal()">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Discount -->
+            <div class="discount-row">
+                <label>Discount:</label>
+                <input type="number" id="discountValue" value="0" min="0" step="1" oninput="recalcTotal()">
+                <select id="discountType" onchange="recalcTotal()">
+                    <option value="percent">%</option>
+                    <option value="flat">$ flat</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Step 2: Client Info -->
+        <div class="form-card">
+            <div class="form-card-title"><span class="num">2</span> Client Information</div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Client / Company Name</label>
+                    <input type="text" name="client_name" placeholder="EC Construction of SWFL" required>
+                </div>
+                <div class="form-group">
+                    <label>Client Email</label>
+                    <input type="email" name="client_email" placeholder="client@email.com" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Client Phone</label>
+                    <input type="tel" name="client_phone" placeholder="(239) 314-7898">
+                </div>
+                <div class="form-group">
+                    <label>County / Jurisdiction</label>
+                    <input type="text" name="county" placeholder="Charlotte County" required>
+                </div>
+            </div>
+            <div class="form-row full">
+                <div class="form-group">
+                    <label>Project Address</label>
+                    <input type="text" name="project_address" placeholder="3415 Monarch St, Port Charlotte, FL 33948" required>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: Intake Prepopulation (client will review/edit) -->
+        <div class="form-card">
+            <div class="form-card-title"><span class="num">3</span> Intake Info <span style="font-size:11px; font-weight:400; color:rgba(255,255,255,0.35); margin-left:4px;">(client can review & edit)</span></div>
+            <div class="intake-note">These fields will appear on the client's payment page. They can verify or update before paying.</div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Project Type</label>
+                    <select name="project_type">
+                        <option value="">Select...</option>
+                        <option value="New Single-Family Residence">New Single-Family Residence</option>
+                        <option value="New Multi-Family Residence">New Multi-Family Residence</option>
+                        <option value="Remodel / Addition">Remodel / Addition</option>
+                        <option value="New A/C Install">New A/C Install</option>
+                        <option value="Re-Roof">Re-Roof</option>
+                        <option value="Windows & Doors Replacement">Windows & Doors Replacement</option>
+                        <option value="Commercial Project">Commercial Project</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Sq Footage</label>
+                    <input type="number" name="sqft" placeholder="2458">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>System Type</label>
+                    <select name="system_type">
+                        <option value="">Select...</option>
+                        <option value="New A/C install">New A/C install</option>
+                        <option value="Existing Central A/C">Existing Central A/C</option>
+                        <option value="Ductless Mini Split">Ductless Mini Split</option>
+                        <option value="Heat Pump">Heat Pump</option>
+                        <option value="Package Unit">Package Unit</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Ductwork Status</label>
+                    <select name="ductwork_status">
+                        <option value="">Select...</option>
+                        <option value="New ducts">New ducts</option>
+                        <option value="Existing ducts">Existing ducts</option>
+                        <option value="No ducts (ductless)">No ducts (ductless)</option>
+                        <option value="Unknown">Unknown / IDK</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Duct Location</label>
+                    <select name="duct_location">
+                        <option value="">Select...</option>
+                        <option value="Attic">Attic</option>
+                        <option value="Crawl Space">Crawl Space</option>
+                        <option value="Conditioned Space">Conditioned Space</option>
+                        <option value="Other / Unknown / IDK">Other / Unknown / IDK</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>HVAC Equipment Info</label>
+                    <input type="text" name="hvac_info" placeholder="Mitsubishi 20K BTU GX-Series...">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Wall Insulation Type</label>
+                    <select name="wall_insulation">
+                        <option value="">Select...</option>
+                        <option value="R-13 Fiberglass Batt">R-13 Fiberglass Batt</option>
+                        <option value="R-15 Fiberglass Batt">R-15 Fiberglass Batt</option>
+                        <option value="R-19 Fiberglass Batt">R-19 Fiberglass Batt</option>
+                        <option value="R-21 Fiberglass Batt">R-21 Fiberglass Batt</option>
+                        <option value="R-13 Spray Foam (Open Cell)">R-13 Spray Foam (Open Cell)</option>
+                        <option value="R-20 Spray Foam (Closed Cell)">R-20 Spray Foam (Closed Cell)</option>
+                        <option value="R-13 Blown-In">R-13 Blown-In</option>
+                        <option value="R-5 Continuous Insulation (CI)">R-5 Continuous Insulation (CI)</option>
+                        <option value="None / Unknown">None / Unknown</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Ceiling Insulation Type</label>
+                    <select name="ceiling_insulation">
+                        <option value="">Select...</option>
+                        <option value="R-30 Fiberglass Batt">R-30 Fiberglass Batt</option>
+                        <option value="R-38 Fiberglass Batt">R-38 Fiberglass Batt</option>
+                        <option value="R-30 Blown-In">R-30 Blown-In</option>
+                        <option value="R-38 Blown-In">R-38 Blown-In</option>
+                        <option value="R-49 Blown-In">R-49 Blown-In</option>
+                        <option value="R-20 Spray Foam (Open Cell)">R-20 Spray Foam (Open Cell)</option>
+                        <option value="R-30 Spray Foam (Closed Cell)">R-30 Spray Foam (Closed Cell)</option>
+                        <option value="None / Unknown">None / Unknown</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row full">
+                <div class="form-group">
+                    <label>Additional Notes / Scope</label>
+                    <textarea name="notes" placeholder="Window series info, special conditions, what client needs help with..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4: Fee Preview -->
+        <div class="form-card">
+            <div class="form-card-title"><span class="num">4</span> Summary</div>
+            <div id="selectedSummary" style="margin-bottom:12px;">
+                <div style="font-size:12px; color:rgba(255,255,255,0.35); padding:16px 0; text-align:center;">Select services above to see summary</div>
+            </div>
+            <div class="fee-preview">
+                <div class="fee-row">
+                    <span>Client pays</span>
+                    <span id="feeTotal">$0.00</span>
+                </div>
+                <div class="fee-row" id="discountRow" style="display:none;">
+                    <span>Discount</span>
+                    <span id="feeDiscount" style="color:#f87171;">−$0.00</span>
+                </div>
+                <div class="fee-row">
+                    <span>Stripe processing (~3%)</span>
+                    <span id="feeStripe">−$0.00</span>
+                </div>
+                <div class="fee-row">
+                    <span>Platform fee (7%)</span>
+                    <span id="feePlatform">−$0.00</span>
+                </div>
+                <div class="fee-row total">
+                    <span>Your payout</span>
+                    <span class="highlight" id="feePayout">$0.00</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit -->
+        <div class="actions">
+            <button type="button" class="btn-secondary" onclick="previewInvoice()">Preview</button>
+            <button type="submit" class="btn-primary" id="submitBtn">Create & Send Payment Link</button>
+        </div>
+    </form>
+
+    <!-- Recent Invoices -->
+    <div class="recent-table">
+        <div class="recent-header"><h3>Recent Invoices</h3></div>
+        <div class="table-row header">
+            <span>Invoice</span><span>Client</span><span>Amount</span><span>Status</span>
+        </div>
+        <div id="recentInvoices">
+            <div class="table-row">
+                <span style="color:rgba(255,255,255,0.3); grid-column:1/-1; text-align:center; font-size:12px;">Loading...</span>
+            </div>
+        </div>
+    </div>
+</div><!-- /tab-new -->
+
+<!-- ========== TAB: HISTORY ========== -->
+<div class="tab-view" id="tab-history">
+    <h2 class="page-title">Invoice History</h2>
+    <p class="page-subtitle">All invoices created through the portal.</p>
+
+    <div class="history-stats" id="historyStats">
+        <div class="stat-card">
+            <div class="stat-label">Total Revenue</div>
+            <div class="stat-value green" id="statRevenue">$0</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Invoices Paid</div>
+            <div class="stat-value green" id="statPaid">0</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Pending</div>
+            <div class="stat-value yellow" id="statPending">0</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Total Invoices</div>
+            <div class="stat-value blue" id="statTotal">0</div>
+        </div>
+    </div>
+
+    <div class="history-table">
+        <div class="history-row header">
+            <span>Invoice</span>
+            <span>Client</span>
+            <span class="hide-mobile">Project</span>
+            <span>Amount</span>
+            <span>Date</span>
+            <span>Status</span>
+        </div>
+        <div id="historyRows">
+            <div class="history-row">
+                <span style="color:rgba(255,255,255,0.3); grid-column:1/-1; text-align:center;">Loading...</span>
+            </div>
+        </div>
+    </div>
+</div><!-- /tab-history -->
+
+<!-- ========== TAB: AIRTABLE ========== -->
+<div class="tab-view" id="tab-airtable">
+    <h2 class="page-title">Airtable Sync</h2>
+    <p class="page-subtitle">Pull proposals from Airtable, import into portal, and write back acceptance status.</p>
+
+    <div class="at-toolbar">
+        <button class="btn-pull" id="btnPullProposals" onclick="pullAirtableRecords('proposals')">
+            Pull Proposals
+        </button>
+        <button class="btn-pull" onclick="pullAirtableRecords('records')" style="background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.7);">
+            All Records
+        </button>
+        <span class="at-status" id="atStatus"></span>
+    </div>
+
+    <div id="airtableCards" class="at-empty">
+        Click "Pull Proposals" to fetch records from Airtable.
+    </div>
+</div><!-- /tab-airtable -->
+
+<!-- ========== TAB: SETTINGS ========== -->
+<div class="tab-view" id="tab-settings">
+    <h2 class="page-title">Settings</h2>
+    <p class="page-subtitle">Configuration for the Oasis Energy Portal.</p>
+
+    <div class="setting-group">
+        <h3>Payment Processing</h3>
+        <div class="setting-row">
+            <div class="setting-info">
+                <div class="setting-label">Stripe Connect</div>
+                <div class="setting-desc">Payment processing via Stripe with automatic 90/10 split</div>
+            </div>
+            <span class="setting-badge connected">Connected</span>
+        </div>
+        <div class="setting-row">
+            <div class="setting-info">
+                <div class="setting-label">Platform Fee</div>
+                <div class="setting-desc">Total deducted from client payment (7% platform + ~3% Stripe)</div>
+            </div>
+            <span class="setting-value">10%</span>
+        </div>
+        <div class="setting-row">
+            <div class="setting-info">
+                <div class="setting-label">Payment Domain</div>
+                <div class="setting-desc">Base URL for payment links</div>
+            </div>
+            <span class="setting-value">pay.yourcompany.com</span>
+        </div>
+    </div>
+
+    <div class="setting-group">
+        <h3>Integrations</h3>
+        <div class="setting-row">
+            <div class="setting-info">
+                <div class="setting-label">Airtable</div>
+                <div class="setting-desc">Green Building Projects Base → EnergyCalcs table. Invoice data pushed after payment.</div>
+            </div>
+            <span class="setting-badge disconnected" id="airtableStatus">Needs Setup</span>
+        </div>
+        <div class="setting-row">
+            <div class="setting-info">
+                <div class="setting-label">Airtable API</div>
+                <div class="setting-desc">Direct REST API sync using Personal Access Token. Two-way: push invoices after payment, pull proposals into admin.</div>
+            </div>
+            <span class="setting-value" style="font-size:10px;">ENV: AIRTABLE_PAT</span>
+        </div>
+        <div class="setting-row">
+            <div class="setting-info">
+                <div class="setting-label">Sync Features</div>
+                <div class="setting-desc">Pull proposals, import to portal, mark as Accepted, auto-push paid invoices</div>
+            </div>
+            <span class="setting-badge connected">Active</span>
+        </div>
+    </div>
+
+    <div class="setting-group">
+        <h3>Email Notifications (via Zapier)</h3>
+        <div class="setting-row">
+            <div class="setting-info">
+                <div class="setting-label">Invoice Created → Client Email</div>
+                <div class="setting-desc">Zapier sends email via Outlook/M365 with payment link when invoice is created</div>
+            </div>
+            <span class="setting-value" style="font-size:10px;">ENV: ZAPIER_INVOICE_WEBHOOK</span>
+        </div>
+        <div class="setting-row">
+            <div class="setting-info">
+                <div class="setting-label">Payment Confirmed → Client + Admin Email</div>
+                <div class="setting-desc">Zapier sends confirmation to client and notification to Admin after payment</div>
+            </div>
+            <span class="setting-value" style="font-size:10px;">ENV: ZAPIER_PAYMENT_WEBHOOK</span>
+        </div>
+        <div class="setting-row">
+            <div class="setting-info">
+                <div class="setting-label">From Address</div>
+                <div class="setting-desc">Configured in Zapier via Microsoft 365 / Outlook integration</div>
+            </div>
+            <span class="setting-value">billing@yourcompany.com</span>
+        </div>
+        <div class="setting-row">
+            <div class="setting-info">
+                <div class="setting-label">Stripe Receipts</div>
+                <div class="setting-desc">Stripe automatically sends payment receipts to clients after successful payment</div>
+            </div>
+            <span class="setting-badge connected">Automatic</span>
+        </div>
+    </div>
+
+    <div class="setting-group">
+        <h3>Server Configuration</h3>
+        <div class="setting-row">
+            <div class="setting-info">
+                <div class="setting-label">Environment Variables</div>
+                <div class="setting-desc">API keys and secrets are configured server-side via environment variables. Contact your developer to update these.</div>
+            </div>
+            <span class="setting-badge connected">Secure</span>
+        </div>
+        <div class="setting-row">
+            <div class="setting-info">
+                <div class="setting-label">Database</div>
+                <div class="setting-desc">SQLite — zero config, file-based. Auto-created on first invoice.</div>
+            </div>
+            <span class="setting-badge connected">Active</span>
+        </div>
+    </div>
+</div><!-- /tab-settings -->
+
+</main>
+
+<!-- Success Modal -->
+<div class="modal-overlay" id="successModal">
+    <div class="modal">
+        <div class="check">✓</div>
+        <h3>Invoice Created!</h3>
+        <p>Payment link ready to share with client.</p>
+        <div class="link-box">
+            <input type="text" id="payLink" value="" readonly>
+            <button type="button" onclick="copyLink()">Copy</button>
+        </div>
+        <p>Client will also receive an email with this link.</p>
+        <button class="btn-primary" style="margin-top:14px; width:100%;" onclick="closeModal()">Create Another</button>
+    </div>
+</div>
+
+<script>
+// ====================================
+// SERVICE CATALOG
+// ====================================
+const SERVICES = [
+    {
+        id: 'energy-js',
+        name: 'Energy Calcs — Manual J/S Only',
+        desc: 'Remodeling / new A/C. Includes RECCL, EPL Card, R402/R405, Manual S & J.',
+        defaultPrice: 200,
+        deliverables: ['Residential Energy Conservation Code Checklist', 'Energy Performance Level (EPL) Card', 'R402/R405 Energy Efficiency Calculations', 'Manual S Calculations', 'Manual J Calculations']
+    },
+    {
+        id: 'energy-jsd',
+        name: 'Energy Calcs Package — J/S/D',
+        desc: 'New construction. Full package with Manual D duct layout included.',
+        defaultPrice: 330,
+        deliverables: ['Residential Energy Conservation Code Checklist', 'Energy Performance Level (EPL) Card', 'R402/R405 Energy Efficiency Calculations', 'Manual S Calculations', 'Manual J Calculations', 'Manual D Calculations']
+    },
+    {
+        id: 'energy-js-new',
+        name: 'Energy Calcs Package — J+S (New Const.)',
+        desc: 'New construction without duct layout. RECCL, EPL, R402/R405, Manual S & J.',
+        defaultPrice: 230,
+        deliverables: ['Residential Energy Conservation Code Checklist', 'Energy Performance Level (EPL) Card', 'R402/R405 Energy Efficiency Calculations', 'Manual S Calculations', 'Manual J Calculations']
+    },
+    {
+        id: 'fema-ec',
+        name: 'FEMA Elevation Certificate',
+        desc: 'Completed FEMA EC with building characteristics, floor & grade elevations. PE signed & sealed. Includes FREE LOMA qualification review.',
+        defaultPrice: 0,
+        deliverables: ['FEMA Elevation Certificate (PDF)', 'LOMA Qualification Review']
+    },
+    {
+        id: 'site-visit',
+        name: 'Site Visit + Digital Property Scan',
+        desc: 'On-site inspection, photo documentation, Matterport 3D tour, and field observation summary.',
+        defaultPrice: 0,
+        deliverables: ['High-Resolution Photo Set', 'Matterport 3D Tour Link', 'Field Observation Summary']
+    },
+    {
+        id: 'other',
+        name: 'Other — Custom Service',
+        desc: 'Type a custom service description below.',
+        defaultPrice: 0,
+        deliverables: ['As described in scope'],
+        hasCustomInput: true
+    }
+];
+
+/* Future services (hidden for now — uncomment when ready):
+const FUTURE_SERVICES = [
+    { id: 'wind-reroof', name: 'Wind Calcs — Residential Re-Roof', desc: 'Site-specific wind load calculations per ASCE 7-22 for re-roof permits.', defaultPrice: 200, deliverables: ['Wind Load Calculations Report', 'PE Certification & Sealed Report'] },
+    { id: 'wind-new', name: 'Wind Calcs — New Construction', desc: 'Wind load calculations for new residential construction per FBC & ASCE 7-22.', defaultPrice: 350, deliverables: ['Wind Load Calculations Report', 'PE Certification & Sealed Report'] },
+    { id: 'wind-commercial', name: 'Wind Calcs — Commercial', desc: 'Commercial wind load calculations. Custom scope.', defaultPrice: 500, deliverables: ['Wind Load Calculations Report', 'PE Certification & Sealed Report'] },
+    { id: 'wind-windows', name: 'Wind Calcs — Windows & Doors', desc: 'Component & cladding wind pressure calcs for window/door replacement.', defaultPrice: 250, deliverables: ['Wind Load Calculations Report', 'PE Certification & Sealed Report'] },
+    { id: 'eng-letter', name: 'Engineering Letter', desc: 'Permit closure, covered work, construction verification.', defaultPrice: 250, deliverables: ['Engineering Letter', 'PE Certification & Seal'] },
+    { id: 'structural', name: 'Structural Analysis', desc: 'Structural engineering analysis and calculations.', defaultPrice: 500, deliverables: ['Structural Analysis Report', 'PE Certification & Sealed Report'] },
+];
+*/
+
+const ADDONS = [
+    {
+        id: 'manual-d',
+        name: 'Manual D Duct Layout',
+        desc: 'Duct layout design — required in some counties',
+        defaultPrice: 100
+    },
+    {
+        id: 'rush',
+        name: 'Rush / Next-Day Delivery',
+        desc: 'Priority processing — delivered within 24 hours',
+        defaultPrice: 150
+    },
+    {
+        id: 'printed',
+        name: 'Printed Deliverables (Shipped)',
+        desc: 'Letter-size printed copies — $25 shipping & handling',
+        defaultPrice: 25
+    },
+    {
+        id: 'floor-plan',
+        name: '2D Dimensioned Floor Plan',
+        desc: 'Generated from Matterport scan — room layout with approximate wall-to-wall dimensions (PDF)',
+        defaultPrice: 25
+    }
+];
+
+// State
+let selectedServices = {};
+let selectedAddons = {};
+
+// ====================================
+// RENDER SERVICE MENU
+// ====================================
+function renderServiceMenu() {
+    const menu = document.getElementById('serviceMenu');
+    menu.innerHTML = SERVICES.map(svc => `
+        <div class="service-card ${selectedServices[svc.id] ? 'selected' : ''}" id="svc-${svc.id}" onclick="toggleService('${svc.id}')">
+            <div class="svc-name">
+                <span class="svc-check">${selectedServices[svc.id] ? '✓' : ''}</span>
+                ${svc.name}
+            </div>
+            <div class="svc-desc">${svc.desc}</div>
+            ${svc.hasCustomInput ? `
+                <div style="margin: 8px 0 4px 26px;">
+                    <input type="text" id="custom-svc-desc-${svc.id}"
+                        class="svc-price-input" style="width:100%; color:var(--oasis-white);"
+                        placeholder="Describe the service..."
+                        value="${selectedServices[svc.id]?.customDesc || ''}"
+                        onclick="event.stopPropagation()"
+                        oninput="updateServiceCustomDesc('${svc.id}', this.value)">
+                </div>
+            ` : ''}
+            <div class="svc-price-row">
+                <span style="font-size:11px; color:rgba(255,255,255,0.4);">$</span>
+                <input type="number" class="svc-price-input" id="price-${svc.id}"
+                    value="${selectedServices[svc.id]?.price ?? svc.defaultPrice}"
+                    step="0.01" min="0"
+                    onclick="event.stopPropagation()"
+                    oninput="updateServicePrice('${svc.id}', this.value)">
+                ${svc.defaultPrice > 0 ? `<span class="svc-default">default: $${svc.defaultPrice}</span>` : ''}
+            </div>
+        </div>
+    `).join('');
+
+    // Update selected state visually
+    Object.keys(selectedServices).forEach(id => {
+        const el = document.getElementById('svc-' + id);
+        if (el) el.classList.add('selected');
+    });
+
+    const addonList = document.getElementById('addonList');
+    addonList.innerHTML = ADDONS.map(addon => `
+        <div class="addon-row ${selectedAddons[addon.id] ? 'selected' : ''}" id="addon-${addon.id}" onclick="toggleAddon('${addon.id}')">
+            <span class="addon-check">${selectedAddons[addon.id] ? '✓' : ''}</span>
+            <div class="addon-info">
+                <div class="addon-name">${addon.name}</div>
+                <div class="addon-desc">${addon.desc}</div>
+            </div>
+            <input type="number" class="addon-price-input" id="addon-price-${addon.id}"
+                value="${selectedAddons[addon.id]?.price ?? addon.defaultPrice}"
+                step="0.01" min="0"
+                onclick="event.stopPropagation()"
+                oninput="updateAddonPrice('${addon.id}', this.value)">
+        </div>
+    `).join('');
+}
+
+function toggleService(id) {
+    const svc = SERVICES.find(s => s.id === id);
+    if (selectedServices[id]) {
+        delete selectedServices[id];
+    } else {
+        const customDesc = document.getElementById('custom-svc-desc-' + id)?.value || '';
+        selectedServices[id] = {
+            ...svc,
+            price: parseFloat(document.getElementById('price-' + id)?.value) || svc.defaultPrice,
+            customDesc: customDesc,
+            name: svc.hasCustomInput && customDesc ? customDesc : svc.name
+        };
+    }
+    renderServiceMenu();
+    recalcTotal();
+}
+
+function updateServicePrice(id, val) {
+    if (selectedServices[id]) {
+        selectedServices[id].price = parseFloat(val) || 0;
+        recalcTotal();
+    }
+}
+
+function updateServiceCustomDesc(id, val) {
+    if (selectedServices[id]) {
+        selectedServices[id].customDesc = val;
+        selectedServices[id].name = val || 'Other — Custom Service';
+        recalcTotal();
+    }
+}
+
+function toggleAddon(id) {
+    const addon = ADDONS.find(a => a.id === id);
+    if (selectedAddons[id]) {
+        delete selectedAddons[id];
+    } else {
+        selectedAddons[id] = {
+            ...addon,
+            price: parseFloat(document.getElementById('addon-price-' + id)?.value) || addon.defaultPrice
+        };
+    }
+    renderServiceMenu();
+    recalcTotal();
+}
+
+function updateAddonPrice(id, val) {
+    if (selectedAddons[id]) {
+        selectedAddons[id].price = parseFloat(val) || 0;
+        recalcTotal();
+    }
+}
+
+function toggleCustomLine() {
+    const sec = document.getElementById('customLineSection');
+    sec.style.display = sec.style.display === 'none' ? 'block' : 'none';
+}
+
+// ====================================
+// CALCULATE TOTALS
+// ====================================
+function recalcTotal() {
+    let subtotal = 0;
+    const lineItems = [];
+
+    // Services
+    Object.values(selectedServices).forEach(svc => {
+        subtotal += svc.price;
+        lineItems.push({ description: svc.name, amount: svc.price });
+    });
+
+    // Add-ons
+    Object.values(selectedAddons).forEach(addon => {
+        subtotal += addon.price;
+        lineItems.push({ description: addon.name, amount: addon.price });
+    });
+
+    // Custom line
+    const customPrice = parseFloat(document.getElementById('customPrice')?.value) || 0;
+    const customDesc = document.getElementById('customDesc')?.value || '';
+    if (customPrice > 0 && customDesc) {
+        subtotal += customPrice;
+        lineItems.push({ description: customDesc, amount: customPrice });
+    }
+
+    // Discount
+    const discountVal = parseFloat(document.getElementById('discountValue').value) || 0;
+    const discountType = document.getElementById('discountType').value;
+    let discountAmount = 0;
+    if (discountVal > 0) {
+        discountAmount = discountType === 'percent'
+            ? subtotal * (discountVal / 100)
+            : discountVal;
+    }
+
+    const total = Math.max(subtotal - discountAmount, 0);
+    const stripe = total * 0.03;
+    const platform = total * 0.07;
+    const payout = total - stripe - platform;
+
+    // Update display
+    document.getElementById('feeTotal').textContent = '$' + total.toFixed(2);
+    document.getElementById('feeStripe').textContent = '−$' + stripe.toFixed(2);
+    document.getElementById('feePlatform').textContent = '−$' + platform.toFixed(2);
+    document.getElementById('feePayout').textContent = '$' + payout.toFixed(2);
+
+    const discountRow = document.getElementById('discountRow');
+    if (discountAmount > 0) {
+        discountRow.style.display = 'flex';
+        document.getElementById('feeDiscount').textContent = '−$' + discountAmount.toFixed(2);
+    } else {
+        discountRow.style.display = 'none';
+    }
+
+    // Summary
+    const summaryEl = document.getElementById('selectedSummary');
+    if (lineItems.length === 0) {
+        summaryEl.innerHTML = '<div style="font-size:12px; color:rgba(255,255,255,0.35); padding:12px 0; text-align:center;">Select services above</div>';
+    } else {
+        summaryEl.innerHTML = lineItems.map(li => `
+            <div style="display:flex; justify-content:space-between; padding:6px 0; font-size:13px; border-bottom:1px solid rgba(255,255,255,0.06);">
+                <span style="color:rgba(255,255,255,0.8);">${li.description}</span>
+                <span style="color:#6ee7a8; font-weight:600;">$${li.amount.toFixed(2)}</span>
+            </div>
+        `).join('') + (discountAmount > 0 ? `
+            <div style="display:flex; justify-content:space-between; padding:6px 0; font-size:13px;">
+                <span style="color:rgba(255,255,255,0.5);">Discount${discountType === 'percent' ? ' (' + discountVal + '%)' : ''}</span>
+                <span style="color:#f87171; font-weight:600;">−$${discountAmount.toFixed(2)}</span>
+            </div>
+        ` : '');
+    }
+}
+
+// ====================================
+// FORM SUBMIT
+// ====================================
+function handleSubmit(e) {
+    e.preventDefault();
+
+    const svcKeys = Object.keys(selectedServices);
+    if (svcKeys.length === 0) {
+        alert('Please select at least one service.');
+        return false;
+    }
+
+    const form = e.target;
+    const formData = Object.fromEntries(new FormData(form));
+
+    // Build line items
+    const lineItems = [];
+    Object.values(selectedServices).forEach(svc => {
+        lineItems.push({ description: svc.name, amount: svc.price, deliverables: svc.deliverables || [] });
+    });
+    Object.values(selectedAddons).forEach(addon => {
+        lineItems.push({ description: addon.name, amount: addon.price, isAddon: true });
+    });
+    const customPrice = parseFloat(document.getElementById('customPrice')?.value) || 0;
+    const customDesc = document.getElementById('customDesc')?.value || '';
+    if (customPrice > 0 && customDesc) {
+        lineItems.push({ description: customDesc, amount: customPrice, isCustom: true });
+    }
+
+    // Discount
+    const discountVal = parseFloat(document.getElementById('discountValue').value) || 0;
+    const discountType = document.getElementById('discountType').value;
+    let subtotal = lineItems.reduce((sum, li) => sum + li.amount, 0);
+    let discountAmount = 0;
+    if (discountVal > 0) {
+        discountAmount = discountType === 'percent' ? subtotal * (discountVal / 100) : discountVal;
+    }
+    const total = Math.max(subtotal - discountAmount, 0);
+
+    // Service type = first selected service name
+    const serviceType = lineItems[0]?.description || 'Engineering Service';
+
+    // Build payload
+    const payload = {
+        ...formData,
+        service_type: serviceType,
+        amount: total,
+        line_items: lineItems,
+        discount: discountAmount > 0 ? { value: discountVal, type: discountType, amount: discountAmount } : null,
+        intake: {
+            project_type: formData.project_type || '',
+            sqft: formData.sqft || '',
+            system_type: formData.system_type || '',
+            ductwork_status: formData.ductwork_status || '',
+            duct_location: formData.duct_location || '',
+            hvac_info: formData.hvac_info || '',
+            wall_insulation: formData.wall_insulation || '',
+            ceiling_insulation: formData.ceiling_insulation || '',
+            notes: formData.notes || ''
+        },
+        description: lineItems.map(li => li.description).join(', ') + (formData.notes ? '. Notes: ' + formData.notes : '')
+    };
+
+    const btn = document.getElementById('submitBtn');
+    btn.textContent = 'Creating...';
+    btn.disabled = true;
+
+    fetch('/api/create-invoice.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+    })
+    .then(r => r.json())
+    .then(result => {
+        if (result.success) {
+            document.getElementById('payLink').value = result.payment_url;
+            document.getElementById('successModal').classList.add('active');
+            form.reset();
+            selectedServices = {};
+            selectedAddons = {};
+            renderServiceMenu();
+            recalcTotal();
+        } else {
+            alert('Error: ' + (result.error || 'Something went wrong'));
+        }
+    })
+    .catch(err => {
+        // Demo mode fallback
+        const demoId = 'OE-2026-' + String(Math.floor(Math.random() * 9000) + 1000);
+        document.getElementById('payLink').value =
+            `https://pay.yourcompany.com/pay/${demoId}`;
+        document.getElementById('successModal').classList.add('active');
+    })
+    .finally(() => {
+        btn.textContent = 'Create & Send Payment Link';
+        btn.disabled = false;
+    });
+
+    return false;
+}
+
+function previewInvoice() {
+    const form = document.getElementById('invoiceForm');
+    const data = Object.fromEntries(new FormData(form));
+
+    // Build line items for preview
+    const lineItems = [];
+    Object.values(selectedServices).forEach(svc => {
+        lineItems.push({ description: svc.name, amount: svc.price, deliverables: svc.deliverables || [] });
+    });
+    Object.values(selectedAddons).forEach(addon => {
+        lineItems.push({ description: addon.name, amount: addon.price, isAddon: true });
+    });
+
+    const discountVal = parseFloat(document.getElementById('discountValue').value) || 0;
+    const discountType = document.getElementById('discountType').value;
+    let subtotal = lineItems.reduce((sum, li) => sum + li.amount, 0);
+    let discountAmount = discountType === 'percent' ? subtotal * (discountVal / 100) : discountVal;
+    const total = Math.max(subtotal - discountAmount, 0);
+
+    // Store in sessionStorage for preview page
+    const previewData = {
+        ...data,
+        service_type: lineItems[0]?.description || 'Engineering Service',
+        line_items: lineItems,
+        amount: total,
+        discount: discountAmount > 0 ? { value: discountVal, type: discountType, amount: discountAmount } : null,
+        intake: {
+            project_type: data.project_type || '',
+            sqft: data.sqft || '',
+            system_type: data.system_type || '',
+            ductwork_status: data.ductwork_status || '',
+            duct_location: data.duct_location || '',
+            hvac_info: data.hvac_info || '',
+            wall_insulation: data.wall_insulation || '',
+            ceiling_insulation: data.ceiling_insulation || '',
+            notes: data.notes || ''
+        }
+    };
+    const params = encodeURIComponent(JSON.stringify(previewData));
+    window.open('/pay.html?preview=1&data=' + params, '_blank');
+}
+
+function copyLink() {
+    const input = document.getElementById('payLink');
+    input.select();
+    navigator.clipboard.writeText(input.value);
+    const btn = input.nextElementSibling;
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 2000);
+}
+
+function closeModal() {
+    document.getElementById('successModal').classList.remove('active');
+}
+
+// Load recent invoices
+function loadRecentInvoices() {
+    fetch('/api/get-invoice.php?recent=1')
+        .then(r => r.json())
+        .then(data => {
+            if (data.invoices && data.invoices.length > 0) {
+                document.getElementById('recentInvoices').innerHTML = data.invoices.map(inv => `
+                    <div class="table-row">
+                        <span>${inv.id}</span>
+                        <span>${inv.client_name}</span>
+                        <span>$${parseFloat(inv.amount).toFixed(2)}</span>
+                        <span class="status ${inv.status}">${inv.status.charAt(0).toUpperCase() + inv.status.slice(1)}</span>
+                    </div>
+                `).join('');
+            }
+        })
+        .catch(() => {
+            // Show demo data
+            document.getElementById('recentInvoices').innerHTML = `
+                <div class="table-row">
+                    <span style="color:rgba(255,255,255,0.25); grid-column:1/-1; text-align:center; font-size:11px;">No invoices yet — create your first one above!</span>
+                </div>`;
+        });
+}
+
+// ====================================
+// TAB SWITCHING
+// ====================================
+function switchTab(tabId, clickedLink) {
+    // Hide all tab views
+    document.querySelectorAll('.tab-view').forEach(t => t.classList.remove('active'));
+    // Show selected
+    document.getElementById('tab-' + tabId)?.classList.add('active');
+
+    // Update nav active state
+    document.querySelectorAll('#adminNav a').forEach(a => a.classList.remove('active'));
+    clickedLink.classList.add('active');
+
+    // Load data if needed
+    if (tabId === 'history') loadHistory();
+    if (tabId === 'airtable') pullAirtableRecords('proposals');
+}
+
+// ====================================
+// HISTORY TAB
+// ====================================
+let historyLoaded = false;
+
+function loadHistory() {
+    if (historyLoaded) return;
+
+    fetch('/api/get-invoice.php?all=1')
+        .then(r => r.json())
+        .then(data => {
+            if (!data.success || !data.invoices) throw new Error('No data');
+
+            const invoices = data.invoices;
+            historyLoaded = true;
+
+            // Stats
+            const paid = invoices.filter(i => i.status === 'paid');
+            const pending = invoices.filter(i => i.status === 'pending');
+            const totalRevenue = paid.reduce((sum, i) => sum + i.amount, 0);
+
+            document.getElementById('statRevenue').textContent = '$' + totalRevenue.toLocaleString('en-US', { minimumFractionDigits: 0 });
+            document.getElementById('statPaid').textContent = paid.length;
+            document.getElementById('statPending').textContent = pending.length;
+            document.getElementById('statTotal').textContent = invoices.length;
+
+            // Rows
+            if (invoices.length === 0) {
+                document.getElementById('historyRows').innerHTML = `
+                    <div class="history-row"><span style="color:rgba(255,255,255,0.3); grid-column:1/-1; text-align:center;">No invoices yet</span></div>`;
+                return;
+            }
+
+            document.getElementById('historyRows').innerHTML = invoices.map(inv => {
+                const date = inv.created_at ? inv.created_at.substring(0, 10) : '—';
+                return `
+                    <div class="history-row">
+                        <span><a href="/pay/${inv.id}" target="_blank">${inv.id}</a></span>
+                        <span>${inv.client_name}</span>
+                        <span class="hide-mobile" style="color:rgba(255,255,255,0.5); font-size:11px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${inv.project_address || '—'}</span>
+                        <span>$${inv.amount.toFixed(2)}</span>
+                        <span style="color:rgba(255,255,255,0.45);">${date}</span>
+                        <span class="status ${inv.status}">${inv.status.charAt(0).toUpperCase() + inv.status.slice(1)}</span>
+                    </div>`;
+            }).join('');
+        })
+        .catch(() => {
+            document.getElementById('historyRows').innerHTML = `
+                <div class="history-row"><span style="color:rgba(255,255,255,0.3); grid-column:1/-1; text-align:center; font-size:11px;">Connect to server to view history</span></div>`;
+            // Set placeholder stats
+            document.getElementById('statRevenue').textContent = '—';
+            document.getElementById('statPaid').textContent = '—';
+            document.getElementById('statPending').textContent = '—';
+            document.getElementById('statTotal').textContent = '—';
+        });
+}
+
+// ====================================
+// AIRTABLE TAB
+// ====================================
+let atLastPull = null;
+
+function pullAirtableRecords(type) {
+    const container = document.getElementById('airtableCards');
+    const statusEl = document.getElementById('atStatus');
+    const btn = document.getElementById('btnPullProposals');
+
+    container.innerHTML = '<div class="at-empty">Loading from Airtable...</div>';
+    statusEl.textContent = 'Fetching...';
+    btn.disabled = true;
+
+    fetch(`/api/airtable-sync.php?action=${type}`)
+        .then(r => r.json())
+        .then(data => {
+            btn.disabled = false;
+            if (!data.success) throw new Error(data.error || 'Failed to fetch');
+
+            atLastPull = new Date();
+            statusEl.textContent = `${data.count} record${data.count !== 1 ? 's' : ''} · Updated ${atLastPull.toLocaleTimeString()}`;
+
+            if (!data.records || data.records.length === 0) {
+                container.innerHTML = '<div class="at-empty">No records found. Try "All Records" to see everything in the table.</div>';
+                return;
+            }
+
+            container.innerHTML = data.records.map(rec => renderAirtableCard(rec)).join('');
+        })
+        .catch(err => {
+            btn.disabled = false;
+            statusEl.textContent = '';
+            container.innerHTML = `<div class="at-empty" style="color:#f87171;">Error: ${err.message}<br><small>Make sure AIRTABLE_PAT is set on the server.</small></div>`;
+        });
+}
+
+function renderAirtableCard(rec) {
+    const status = rec.payment_status || 'Draft';
+    const badgeClass = status === 'Proposal Sent' ? 'proposal'
+        : status === 'Accepted' ? 'accepted'
+        : status === 'Paid' ? 'paid'
+        : status === 'Pending Payment' ? 'pending'
+        : 'draft';
+
+    const amount = rec.amount ? '$' + parseFloat(rec.amount).toFixed(2) : '—';
+    const hasInvoice = !!rec.invoice_id;
+
+    let actions = '';
+    if (!hasInvoice && rec.client_name && rec.amount) {
+        // Can import into portal
+        actions += `<button class="btn-import" onclick="importFromAirtable('${rec.airtable_id}', this)">Import to Portal</button>`;
+    }
+    if (hasInvoice) {
+        actions += `<button class="btn-view" onclick="window.open('/pay/${rec.invoice_id}', '_blank')">View Invoice</button>`;
+    }
+    if (status !== 'Accepted' && status !== 'Paid' && (hasInvoice || rec.airtable_id)) {
+        actions += `<button class="btn-accept" onclick="acceptAirtableRecord('${rec.airtable_id}', '${rec.invoice_id || ''}', this)">Mark Accepted</button>`;
+    }
+
+    return `
+        <div class="at-card" data-at-id="${rec.airtable_id}">
+            <div class="at-card-header">
+                <div>
+                    <div class="at-card-title">${rec.client_name || rec.name || 'Untitled'}</div>
+                    <div style="font-size:11px; color:rgba(255,255,255,0.4); margin-top:2px;">${rec.invoice_id || 'No Invoice ID'}</div>
+                </div>
+                <span class="at-card-badge ${badgeClass}">${status}</span>
+            </div>
+            <div class="at-card-body">
+                <span class="at-label">Service</span><span class="at-value">${rec.service_type || '—'}</span>
+                <span class="at-label">Address</span><span class="at-value">${rec.project_address || '—'}</span>
+                <span class="at-label">Amount</span><span class="at-value">${amount}</span>
+                <span class="at-label">Email</span><span class="at-value">${rec.client_email || '—'}</span>
+            </div>
+            ${actions ? `<div class="at-card-actions">${actions}</div>` : ''}
+        </div>`;
+}
+
+function importFromAirtable(airtableId, btn) {
+    // Find the card data from the DOM
+    const card = btn.closest('.at-card');
+    if (!card) return;
+
+    btn.disabled = true;
+    btn.textContent = 'Importing...';
+
+    // Pull record data from the rendered card (we stored it during render)
+    // Re-fetch from Airtable to get full record
+    fetch('/api/airtable-sync.php?action=records')
+        .then(r => r.json())
+        .then(data => {
+            if (!data.success) throw new Error(data.error);
+            const record = data.records.find(r => r.airtable_id === airtableId);
+            if (!record) throw new Error('Record not found');
+
+            // Now import it
+            return fetch('/api/airtable-sync.php?action=import', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    airtable_record_id: airtableId,
+                    record: { fields: {
+                        'Client Name': record.client_name,
+                        'Client Email': record.client_email,
+                        'Client Phone': record.client_phone,
+                        'Project Address': record.project_address,
+                        'County': record.county,
+                        'Service Type': record.service_type,
+                        'Description': record.description,
+                        'Amount': record.amount,
+                        'Project Type': record.project_type,
+                        'Square Footage': record.sqft,
+                        'System Type': record.system_type,
+                        'Name': record.name,
+                    }}
+                }),
+            });
+        })
+        .then(r => r.json())
+        .then(result => {
+            if (!result.success) throw new Error(result.error);
+            btn.textContent = 'Imported!';
+            btn.style.background = 'rgba(26,107,74,0.3)';
+            btn.style.color = '#6ee7a8';
+
+            // Show the invoice link
+            const actionsDiv = btn.parentElement;
+            actionsDiv.innerHTML += `<button class="btn-view" onclick="window.open('/pay/${result.invoice_id}', '_blank')">View ${result.invoice_id}</button>`;
+            actionsDiv.innerHTML += `<button class="btn-view" onclick="navigator.clipboard.writeText('${result.payment_url}').then(() => this.textContent = 'Copied!')">Copy Link</button>`;
+
+            // Update badge
+            card.querySelector('.at-card-badge').textContent = 'Pending Payment';
+            card.querySelector('.at-card-badge').className = 'at-card-badge pending';
+        })
+        .catch(err => {
+            btn.disabled = false;
+            btn.textContent = 'Import Failed';
+            btn.style.color = '#f87171';
+            alert('Import error: ' + err.message);
+        });
+}
+
+function acceptAirtableRecord(airtableId, invoiceId, btn) {
+    btn.disabled = true;
+    btn.textContent = 'Updating...';
+
+    fetch('/api/airtable-sync.php?action=accept', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            airtable_record_id: airtableId,
+            invoice_id: invoiceId,
+        }),
+    })
+        .then(r => r.json())
+        .then(data => {
+            if (!data.success) throw new Error(data.error);
+            btn.textContent = 'Accepted';
+            btn.style.background = 'rgba(20,184,166,0.3)';
+            btn.disabled = true;
+
+            // Update badge on card
+            const card = btn.closest('.at-card');
+            if (card) {
+                const badge = card.querySelector('.at-card-badge');
+                badge.textContent = 'Accepted';
+                badge.className = 'at-card-badge accepted';
+            }
+        })
+        .catch(err => {
+            btn.disabled = false;
+            btn.textContent = 'Mark Accepted';
+            alert('Error: ' + err.message);
+        });
+}
+
+// Init
+renderServiceMenu();
+recalcTotal();
+loadRecentInvoices();
+</script>
+
+</body>
+</html>
