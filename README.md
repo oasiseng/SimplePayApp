@@ -103,8 +103,10 @@ SimplePayApp is a single-folder PHP app that gives you a complete invoicing work
 
 ```
 SimplePayApp/
-├── .htaccess              # URL routing, HTTPS, security rules
-├── admin.html             # Admin dashboard (single-page app)
+├── .htaccess              # URL routing, HTTPS, security, admin auth
+├── .htpasswd              # Admin password file (generate with htpasswd)
+├── index.php              # Public landing page with invoice lookup
+├── admin.html             # Admin dashboard (single-page app, password-protected)
 ├── pay.html               # Client payment page template
 ├── pay.php                # Server-side renderer for /pay/INVOICE-ID
 ├── create-invoice.php     # API: create invoice + Stripe session
@@ -133,8 +135,15 @@ cd /your/web/root
 composer require stripe/stripe-php phpmailer/phpmailer
 ```
 
-### 3. Configure environment
-Add to `.htaccess` after `RewriteEngine On`:
+### 3. Set up admin password
+Generate a `.htpasswd` file in your web root:
+```bash
+htpasswd -c /path/to/your/webroot/.htpasswd admin
+```
+Then update the `AuthUserFile` path in `.htaccess` to match. This protects `admin.html` with HTTP Basic Auth.
+
+### 4. Configure environment
+Add to `.htaccess` (uncomment and fill in the SetEnv lines at the bottom):
 
 ```apache
 SetEnv STRIPE_SECRET_KEY sk_live_XXXXXXXXXXXX
@@ -147,23 +156,24 @@ SetEnv ZAPIER_PAYMENT_WEBHOOK https://hooks.zapier.com/hooks/catch/XXXXX/XXXXX
 SetEnv APP_BASE_URL https://pay.yourcompany.com
 ```
 
-### 4. Configure Stripe
+### 5. Configure Stripe
 - Create a [Stripe account](https://dashboard.stripe.com)
 - Enable [Stripe Connect](https://dashboard.stripe.com/connect/overview) (Platform mode)
 - Add a connected account for the service provider
 - Create a webhook endpoint pointing to `/api/webhook.php` with event `checkout.session.completed`
 
-### 5. Configure Airtable (optional)
+### 6. Configure Airtable (optional)
 - Create a [Personal Access Token](https://airtable.com/create/tokens) with `data.records:read` and `data.records:write` scopes
 - Create a table with matching fields (or adapt `airtable-helper.php` to your schema)
 
-### 6. Configure Zapier (optional)
+### 7. Configure Zapier (optional)
 - Create two Zaps with "Webhooks by Zapier → Catch Hook" triggers
 - Connect to your email provider (Outlook, Gmail, etc.) as the action
 - Use the webhook URLs in your `.htaccess`
 
-### 7. Test
-- Visit `yoursite.com/admin.html`
+### 8. Test
+- Visit `yoursite.com/` — you should see the landing page
+- Visit `yoursite.com/admin.html` — should prompt for username/password
 - Create a test invoice
 - Open the payment link
 - Pay with Stripe test card: `4242 4242 4242 4242`
