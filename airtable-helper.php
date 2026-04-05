@@ -340,12 +340,10 @@ function mapServiceType($dbValue) {
         'Manual J & S (Existing Home)'      => 'Manual J & S (Existing Home)',
         'Manual J, S & D (Existing Home)'    => 'Manual J, S & D (Existing Home)',
         'Manual J & S (New Construction)'    => 'Manual J & S (New Construction)',
-        'FEMA Elevation Certificate'         => 'FEMA Elevation Certificate',
         'Site Visit + Digital Property Scan' => 'Site Visit + Digital Property Scan',
         'energy-js'     => 'Manual J & S (Existing Home)',
         'energy-jsd'    => 'Manual J, S & D (Existing Home)',
         'energy-js-new' => 'Manual J & S (New Construction)',
-        'fema-ec'       => 'FEMA Elevation Certificate',
         'site-visit'    => 'Site Visit + Digital Property Scan',
     ];
     return $map[$dbValue] ?? 'Other';

@@ -846,28 +846,6 @@
     // SERVICE DESCRIPTIONS (shown to client)
     // ====================================
     const SERVICE_DESCRIPTIONS = {
-        'fema-ec': {
-            title: 'FEMA Elevation Certificate Service',
-            overview: 'Professional preparation of a FEMA Elevation Certificate (EC) for residential and light commercial properties. Designed for homeowners, contractors, and real estate professionals needing documentation for flood insurance, compliance, or records. Signed and sealed by PE.',
-            includes: [
-                'Completed FEMA Elevation Certificate (latest form version)',
-                'Documentation of building characteristics',
-                'Lowest floor elevation documentation',
-                'Adjacent grade elevations',
-                'Reference to applicable vertical datum',
-                'Engineer-reviewed & PE signed/sealed document',
-                'FREE review for LOMA (Letter of Map Amendment) qualification — flood zone removal eligibility'
-            ],
-            howItWorks: [
-                'Submit property details and order online',
-                'Upload any available documents (survey, prior EC, plans, etc.)',
-                'Schedule site visit (if needed)',
-                'We complete and deliver your Elevation Certificate'
-            ],
-            delivery: 'Delivered as a PDF document. Typical turnaround: 1–3 business days after data collection.',
-            useCases: 'Flood insurance (NFIP compliance), property transactions, lender documentation, municipal records, during-construction FFE records.',
-            notes: 'Flood zone references are based on public FEMA mapping. This service does not include boundary or topographic surveys. Flood zone removal (LOMA) service is separate if qualification is confirmed.'
-        },
         'site-visit': {
             title: 'Site Visit + Digital Property Scan Package',
             overview: 'A streamlined, on-demand site visit service to capture accurate existing conditions of a property. Ideal for documentation, planning, remote collaboration, and record keeping.',
@@ -940,8 +918,7 @@
         lineItems.forEach(li => {
             const desc = (li.description || '').toLowerCase();
             let key = null;
-            if (desc.includes('fema') || desc.includes('elevation certificate')) key = 'fema-ec';
-            else if (desc.includes('site visit') || desc.includes('property scan') || desc.includes('matterport')) key = 'site-visit';
+            if (desc.includes('site visit') || desc.includes('property scan') || desc.includes('matterport')) key = 'site-visit';
             if (!key) return;
             const svc = SERVICE_DESCRIPTIONS[key];
             if (!svc) return;
@@ -1293,7 +1270,7 @@
                         </div>
                         <div class="terms-section">
                             <h4>Deliverables & Timeline</h4>
-                            <p>All reports, calculations, certificates, and related documents will be delivered electronically (PDF) unless otherwise noted. The estimated completion time is 1–3 business days from project start or data collection, unless otherwise specified. Energy calculations are prepared by a Florida Solar Energy Center (FSEC) certified energy specialist. FEMA Elevation Certificates are prepared and signed/sealed by a licensed Professional Engineer (PE). Matterport 3D tours are delivered as hosted shareable links. If printed deliverables are requested, a $25 shipping and handling fee applies for standard letter-size printed copies.</p>
+                            <p>All reports, calculations, certificates, and related documents will be delivered electronically (PDF) unless otherwise noted. The estimated completion time is 1–3 business days from project start or data collection, unless otherwise specified. Energy calculations are prepared by a Florida Solar Energy Center (FSEC) certified energy specialist. Matterport 3D tours are delivered as hosted shareable links. If printed deliverables are requested, a $25 shipping and handling fee applies for standard letter-size printed copies.</p>
                         </div>
                         <div class="terms-section">
                             <h4>Client Responsibilities</h4>
@@ -1318,10 +1295,6 @@
                                 <li>Legal representation, testimony, dispute resolution, or expert witness services</li>
                                 <li>Shop Drawings or drawings of pre-manufactured trusses beyond scope</li>
                             </ul>
-                        </div>
-                        <div class="terms-section">
-                            <h4>FEMA Elevation Certificate Services</h4>
-                            <p>Where applicable: Flood zone references are based on publicly available FEMA mapping data. This service does not include boundary surveys, topographic surveys, or formal flood zone determinations. A complimentary LOMA (Letter of Map Amendment) qualification review is included; the LOMA application/flood zone removal service itself, if qualified, is a separate engagement and fee. A site visit may be required depending on data availability and will be coordinated with the Client. The Elevation Certificate is prepared and signed/sealed by a licensed Professional Engineer (PE).</p>
                         </div>
                         <div class="terms-section">
                             <h4>Site Visit & Property Scan Services</h4>
@@ -1360,7 +1333,7 @@
                         </div>
                         <div class="terms-section">
                             <h4>Code Compliance</h4>
-                            <p>Energy calculations and reports are prepared in accordance with the Florida Building Code (FBC) and Florida Energy Conservation Code. FEMA Elevation Certificates are prepared in accordance with NFIP requirements and current FEMA form standards. Compliance with local amendments, Authority Having Jurisdiction (AHJ) requirements, and contractor installation practices is the responsibility of the Client and their licensed contractor.</p>
+                            <p>Energy calculations and reports are prepared in accordance with the Florida Building Code (FBC) and Florida Energy Conservation Code. Compliance with local amendments, Authority Having Jurisdiction (AHJ) requirements, and contractor installation practices is the responsibility of the Client and their licensed contractor.</p>
                         </div>
                         <div class="terms-section">
                             <h4>Intellectual Property</h4>
@@ -1968,14 +1941,13 @@
     function getTermsHtml() {
         return `
             <div class="terms-section"><h4>Scope of Services</h4><p>Oasis Engineering agrees to perform the engineering and professional services described in this agreement. Services are limited to the specific scope outlined herein.</p></div>
-            <div class="terms-section"><h4>Deliverables & Timeline</h4><p>All reports, calculations, certificates, and documents delivered electronically (PDF) unless otherwise noted. Estimated 1-3 business days. Energy calculations by FSEC certified specialist. FEMA Elevation Certificates signed/sealed by PE. Matterport 3D tours delivered as hosted links. Printed deliverables: $25 shipping & handling.</p></div>
+            <div class="terms-section"><h4>Deliverables & Timeline</h4><p>All reports, calculations, certificates, and documents delivered electronically (PDF) unless otherwise noted. Estimated 1-3 business days. Energy calculations by FSEC certified specialist. Matterport 3D tours delivered as hosted links. Printed deliverables: $25 shipping & handling.</p></div>
             <div class="terms-section"><h4>Client Responsibilities</h4><p>Client shall provide accurate and complete project information. For site visits, Client shall provide building access. Inaccurate or incomplete information may result in delays or additional charges.</p></div>
-            <div class="terms-section"><h4>FEMA Elevation Certificate</h4><p>Where applicable: Flood zone references based on public FEMA mapping. Does not include boundary/topographic surveys. LOMA qualification review included; LOMA application is a separate service. Signed/sealed by PE.</p></div>
             <div class="terms-section"><h4>Site Visit & Property Scan</h4><p>Where applicable: Non-invasive visual inspections only. Matterport 3D tours hosted on Matterport platform. Optional 2D Floor Plan is approximate and for reference only, not for construction or permitting.</p></div>
             <div class="terms-section"><h4>Limitation of Liability</h4><p>Total liability shall not exceed compensation paid for services. Client agrees to indemnify and hold harmless Oasis Engineering from claims arising from misuse of deliverables.</p></div>
             <div class="terms-section"><h4>Revisions</h4><p>Design Phase: Unlimited. Permitting Phase: Up to 3 revisions. Post-approval: $185/hour.</p></div>
             <div class="terms-section"><h4>Payment Terms</h4><p>Due 30 days after delivery. Late fee: $10/day after 30 days. Documents remain property of Oasis Engineering until paid in full.</p></div>
-            <div class="terms-section"><h4>Code Compliance</h4><p>Energy reports per Florida Building Code and Energy Conservation Code. FEMA Elevation Certificates per NFIP and current FEMA standards. Local compliance is the responsibility of Client and their contractor.</p></div>
+            <div class="terms-section"><h4>Code Compliance</h4><p>Energy reports per Florida Building Code and Energy Conservation Code. Local compliance is the responsibility of Client and their contractor.</p></div>
             <div class="terms-section"><h4>Dispute Resolution</h4><p>Mediation in Your County County, FL. Governed by Florida law.</p></div>
         `;
     }

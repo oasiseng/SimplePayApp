@@ -76,7 +76,7 @@ SimplePayApp is a single-folder PHP app that gives you a complete invoicing work
 ## Features
 
 ### Admin Dashboard
-- **Service menu** with clickable cards — energy calcs, FEMA certificates, site visits, custom services
+- **Service menu** with clickable cards — energy calcs, site visits, custom services
 - **Add-ons** — rush delivery, printed copies, floor plans
 - **Editable pricing** per invoice with discount support
 - **Intake prepopulation** — fill in project details before sending to client

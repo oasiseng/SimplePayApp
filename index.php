@@ -172,7 +172,6 @@
                 <span>EnergyGauge/FSEC</span>
                 <span>Duct Leakage Testing</span>
                 <span>Blower Door Testing</span>
-                <span>FEMA Elevation Cert</span>
                 <span>Site Visit &amp; Scan</span>
             </div>
 
