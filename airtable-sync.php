@@ -17,9 +17,10 @@
  */
 
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
+$allowed_origin = getenv('APP_ORIGIN') ?: 'https://pay.yourcompany.com';
+header('Access-Control-Allow-Origin: ' . $allowed_origin);
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Allow-Headers: Content-Type, X-Admin-Password');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
@@ -29,24 +30,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 require_once __DIR__ . '/airtable-helper.php';
 
 $config = [
-    'admin_password' => getenv('ADMIN_PASSWORD') ?: 'oasis2026!',
+    'admin_password' => getenv('ADMIN_PASSWORD') ?: '',
     'db_path'        => __DIR__ . '/data/invoices.sqlite',
     'base_url'       => 'https://pay.yourcompany.com',
 ];
 
-// Simple auth check (same as admin panel)
+// Auth check — admin password required
 $authHeader = $_SERVER['HTTP_X_ADMIN_PASSWORD'] ?? '';
-// For GET requests, also check query param
 $authParam = $_GET['auth'] ?? '';
 $providedAuth = $authHeader ?: $authParam;
 
-// Note: In production, enforce auth. For now, allow if password matches or is empty.
-// Uncomment below to enforce:
-// if ($providedAuth !== $config['admin_password']) {
-//     http_response_code(401);
-//     echo json_encode(['error' => 'Unauthorized']);
-//     exit;
-// }
+if (empty($config['admin_password']) || $providedAuth !== $config['admin_password']) {
+    http_response_code(401);
+    echo json_encode(['error' => 'Unauthorized']);
+    exit;
+}
 
 $action = $_GET['action'] ?? $_POST['action'] ?? '';
 

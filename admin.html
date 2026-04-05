@@ -1100,6 +1100,36 @@
 
 <script>
 // ====================================
+// ADMIN API AUTH
+// ====================================
+let _adminPassword = sessionStorage.getItem('_ap') || '';
+
+function getAdminPassword() {
+    if (!_adminPassword) {
+        _adminPassword = prompt('Enter admin API password:') || '';
+        sessionStorage.setItem('_ap', _adminPassword);
+    }
+    return _adminPassword;
+}
+
+function adminHeaders(extra = {}) {
+    return { 'Content-Type': 'application/json', 'X-Admin-Password': getAdminPassword(), ...extra };
+}
+
+function adminFetch(url, opts = {}) {
+    opts.headers = adminHeaders(opts.headers || {});
+    return fetch(url, opts).then(r => {
+        if (r.status === 401) {
+            _adminPassword = '';
+            sessionStorage.removeItem('_ap');
+            alert('Invalid admin password. Please try again.');
+            throw new Error('Unauthorized');
+        }
+        return r;
+    });
+}
+
+// ====================================
 // SERVICE CATALOG
 // ====================================
 const SERVICES = [
@@ -1440,9 +1470,8 @@ function handleSubmit(e) {
     btn.textContent = 'Creating...';
     btn.disabled = true;
 
-    fetch('/api/create-invoice.php', {
+    adminFetch('/api/create-invoice.php', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
     })
     .then(r => r.json())
@@ -1531,7 +1560,7 @@ function closeModal() {
 
 // Load recent invoices
 function loadRecentInvoices() {
-    fetch('/api/get-invoice.php?recent=1')
+    adminFetch('/api/get-invoice.php?recent=1')
         .then(r => r.json())
         .then(data => {
             if (data.invoices && data.invoices.length > 0) {
@@ -1580,7 +1609,7 @@ let historyLoaded = false;
 function loadHistory() {
     if (historyLoaded) return;
 
-    fetch('/api/get-invoice.php?all=1')
+    adminFetch('/api/get-invoice.php?all=1')
         .then(r => r.json())
         .then(data => {
             if (!data.success || !data.invoices) throw new Error('No data');
@@ -1643,7 +1672,7 @@ function pullAirtableRecords(type) {
     statusEl.textContent = 'Fetching...';
     btn.disabled = true;
 
-    fetch(`/api/airtable-sync.php?action=${type}`)
+    adminFetch(`/api/airtable-sync.php?action=${type}`)
         .then(r => r.json())
         .then(data => {
             btn.disabled = false;
@@ -1718,7 +1747,7 @@ function importFromAirtable(airtableId, btn) {
 
     // Pull record data from the rendered card (we stored it during render)
     // Re-fetch from Airtable to get full record
-    fetch('/api/airtable-sync.php?action=records')
+    adminFetch('/api/airtable-sync.php?action=records')
         .then(r => r.json())
         .then(data => {
             if (!data.success) throw new Error(data.error);
@@ -1726,9 +1755,8 @@ function importFromAirtable(airtableId, btn) {
             if (!record) throw new Error('Record not found');
 
             // Now import it
-            return fetch('/api/airtable-sync.php?action=import', {
+            return adminFetch('/api/airtable-sync.php?action=import', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     airtable_record_id: airtableId,
                     record: { fields: {
@@ -1776,9 +1804,8 @@ function acceptAirtableRecord(airtableId, invoiceId, btn) {
     btn.disabled = true;
     btn.textContent = 'Updating...';
 
-    fetch('/api/airtable-sync.php?action=accept', {
+    adminFetch('/api/airtable-sync.php?action=accept', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             airtable_record_id: airtableId,
             invoice_id: invoiceId,

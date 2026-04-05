@@ -19,11 +19,11 @@
 // CONFIGURATION — update these or use environment variables
 // ============================================================
 $config = [
-    'stripe_secret_key'     => getenv('STRIPE_SECRET_KEY') ?: 'sk_test_XXXXXXXXXXXXXXXX',
-    'connected_account_id'  => getenv('STRIPE_CONNECTED_ACCOUNT_ID') ?: 'acct_XXXXXXXXXXXXXXXX',
+    'stripe_secret_key'     => getenv('STRIPE_SECRET_KEY') ?: '',
+    'connected_account_id'  => getenv('STRIPE_CONNECTED_ACCOUNT_ID') ?: '',
     'platform_fee_percent'  => 10, // 7% you + 3% Stripe ≈ 10% total off the top
     'base_url'              => 'https://pay.yourcompany.com',
-    'admin_password'        => getenv('ADMIN_PASSWORD') ?: 'oasis2026!',
+    'admin_password'        => getenv('ADMIN_PASSWORD') ?: '',
     'db_path'               => __DIR__ . '/data/invoices.sqlite',
     'zapier_invoice_webhook' => getenv('ZAPIER_INVOICE_WEBHOOK') ?: '', // Fires when invoice is created
     'zapier_payment_webhook' => getenv('ZAPIER_PAYMENT_WEBHOOK') ?: '', // Fires when payment confirmed
@@ -34,12 +34,21 @@ $config = [
 // CORS & Headers
 // ============================================================
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
+$allowed_origin = getenv('APP_ORIGIN') ?: 'https://pay.yourcompany.com';
+header('Access-Control-Allow-Origin: ' . $allowed_origin);
 header('Access-Control-Allow-Methods: POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
+header('Access-Control-Allow-Headers: Content-Type, X-Admin-Password');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
+    exit;
+}
+
+// Auth check — admin password required
+$authHeader = $_SERVER['HTTP_X_ADMIN_PASSWORD'] ?? '';
+if ($authHeader !== $config['admin_password']) {
+    http_response_code(401);
+    echo json_encode(['success' => false, 'error' => 'Unauthorized']);
     exit;
 }
 
@@ -49,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 function getDB($config) {
     $dir = dirname($config['db_path']);
     if (!is_dir($dir)) {
-        mkdir($dir, 0755, true);
+        mkdir($dir, 0700, true);
     }
 
     $db = new SQLite3($config['db_path']);

@@ -26,7 +26,7 @@
  */
 
 $config = [
-    'webhook_api_key' => getenv('WEBHOOK_API_KEY') ?: 'oasis-zap-secret-2026',
+    'webhook_api_key' => getenv('WEBHOOK_API_KEY') ?: '',
 ];
 
 // Verify API key

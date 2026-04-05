@@ -15,7 +15,8 @@
 // CORS & Headers
 // ============================================================
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
+$allowed_origin = getenv('APP_ORIGIN') ?: 'https://pay.yourcompany.com';
+header('Access-Control-Allow-Origin: ' . $allowed_origin);
 header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 
@@ -44,6 +45,11 @@ try {
 
     if (empty($invoiceId)) {
         throw new Exception('Missing required field: invoice_id');
+    }
+
+    // Validate invoice ID format
+    if (!preg_match('/^OE-\d{4}-\d{4}$/', $invoiceId)) {
+        throw new Exception('Invalid invoice ID format');
     }
 
     // ========================================================

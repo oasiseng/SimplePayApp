@@ -9,7 +9,7 @@
 header('Content-Type: application/json');
 
 $config = [
-    'stripe_secret_key'     => getenv('STRIPE_SECRET_KEY') ?: 'sk_test_XXXXXXXXXXXXXXXX',
+    'stripe_secret_key'     => getenv('STRIPE_SECRET_KEY') ?: '',
     'db_path'               => __DIR__ . '/data/invoices.sqlite',
 ];
 

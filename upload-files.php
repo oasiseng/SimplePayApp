@@ -16,7 +16,8 @@
 // CORS & Headers
 // ============================================================
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
+$allowed_origin = getenv('APP_ORIGIN') ?: 'https://pay.yourcompany.com';
+header('Access-Control-Allow-Origin: ' . $allowed_origin);
 header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 
@@ -45,6 +46,11 @@ try {
         throw new Exception('Missing required field: invoice_id');
     }
 
+    // Validate invoice ID format
+    if (!preg_match('/^OE-\d{4}-\d{4}$/', $invoiceId)) {
+        throw new Exception('Invalid invoice ID format');
+    }
+
     // Validate that invoice exists
     if (!file_exists($config['db_path'])) {
         throw new Exception('Database not found');
@@ -63,7 +69,7 @@ try {
     // ========================================================
     $uploadDir = $config['upload_base_dir'] . '/' . $invoiceId;
     if (!is_dir($uploadDir)) {
-        mkdir($uploadDir, 0755, true);
+        mkdir($uploadDir, 0700, true);
     }
 
     // ========================================================
@@ -89,6 +95,13 @@ try {
             $fileSize = $sizes[$idx];
             if ($fileSize > $config['max_file_size']) {
                 throw new Exception("File {$filename} exceeds 25MB limit");
+            }
+
+            // Validate file extension
+            $allowedExtensions = ['pdf', 'jpg', 'jpeg', 'png', 'gif', 'doc', 'docx', 'xls', 'xlsx', 'csv', 'txt', 'dwg', 'dxf', 'zip'];
+            $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+            if (!in_array($ext, $allowedExtensions)) {
+                throw new Exception("File type .{$ext} not allowed. Accepted: " . implode(', ', $allowedExtensions));
             }
 
             // Sanitize filename
