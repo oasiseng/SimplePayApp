@@ -113,22 +113,24 @@ if (!$invoiceData) {
 <body>
 <?php
 // Include the pay.html content (minus the <html>/<head> tags)
-// In production, you'd use a proper template engine.
-// For simplicity, we'll redirect to include the static HTML body:
+// Using string functions instead of regex — regex fails on large files (PCRE backtracking limit)
 $html = file_get_contents(__DIR__ . '/pay.html');
 
-// Extract just the body content and styles
-preg_match('/<style>(.*?)<\/style>/s', $html, $styleMatch);
-preg_match('/<body>(.*?)<\/body>/s', $html, $bodyMatch);
-
-if (!empty($styleMatch[1])) {
+// Extract style content
+$styleStart = strpos($html, '<style>');
+$styleEnd = strpos($html, '</style>');
+if ($styleStart !== false && $styleEnd !== false) {
+    $styleContent = substr($html, $styleStart + 7, $styleEnd - $styleStart - 7);
     echo '<link rel="preconnect" href="https://fonts.googleapis.com">';
     echo '<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,700&display=swap" rel="stylesheet">';
-    echo '<style>' . $styleMatch[1] . '</style></head>';
+    echo '<style>' . $styleContent . '</style></head>';
 }
 
-if (!empty($bodyMatch[1])) {
-    echo $bodyMatch[1];
+// Extract body content
+$bodyStart = strpos($html, '<body>');
+$bodyEnd = strrpos($html, '</body>');
+if ($bodyStart !== false && $bodyEnd !== false) {
+    echo substr($html, $bodyStart + 6, $bodyEnd - $bodyStart - 6);
 }
 ?>
 </body>

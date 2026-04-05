@@ -1100,36 +1100,6 @@
 
 <script>
 // ====================================
-// ADMIN API AUTH
-// ====================================
-let _adminPassword = sessionStorage.getItem('_ap') || '';
-
-function getAdminPassword() {
-    if (!_adminPassword) {
-        _adminPassword = prompt('Enter admin API password:') || '';
-        sessionStorage.setItem('_ap', _adminPassword);
-    }
-    return _adminPassword;
-}
-
-function adminHeaders(extra = {}) {
-    return { 'Content-Type': 'application/json', 'X-Admin-Password': getAdminPassword(), ...extra };
-}
-
-function adminFetch(url, opts = {}) {
-    opts.headers = adminHeaders(opts.headers || {});
-    return fetch(url, opts).then(r => {
-        if (r.status === 401) {
-            _adminPassword = '';
-            sessionStorage.removeItem('_ap');
-            alert('Invalid admin password. Please try again.');
-            throw new Error('Unauthorized');
-        }
-        return r;
-    });
-}
-
-// ====================================
 // SERVICE CATALOG
 // ====================================
 const SERVICES = [
@@ -1187,7 +1157,8 @@ const ADDONS = [
         id: 'manual-d',
         name: 'Manual D Duct Layout',
         desc: 'Duct layout design — required in some counties',
-        defaultPrice: 100
+        defaultPrice: 100,
+        showIf: ['energy-js', 'energy-js-new']
     },
     {
         id: 'rush',
@@ -1205,7 +1176,8 @@ const ADDONS = [
         id: 'floor-plan',
         name: '2D Dimensioned Floor Plan',
         desc: 'Generated from Matterport scan — room layout with approximate wall-to-wall dimensions (PDF)',
-        defaultPrice: 25
+        defaultPrice: 25,
+        showIf: ['site-visit']
     }
 ];
 
@@ -1253,8 +1225,24 @@ function renderServiceMenu() {
         if (el) el.classList.add('selected');
     });
 
+    // Filter addons based on selected services
+    const activeServiceIds = Object.keys(selectedServices);
+    const visibleAddons = ADDONS.filter(addon => {
+        if (!addon.showIf) return true;
+        return addon.showIf.some(svcId => activeServiceIds.includes(svcId));
+    });
+
+    // Auto-deselect hidden addons
+    ADDONS.forEach(addon => {
+        if (addon.showIf && selectedAddons[addon.id]) {
+            if (!addon.showIf.some(svcId => activeServiceIds.includes(svcId))) {
+                delete selectedAddons[addon.id];
+            }
+        }
+    });
+
     const addonList = document.getElementById('addonList');
-    addonList.innerHTML = ADDONS.map(addon => `
+    addonList.innerHTML = visibleAddons.map(addon => `
         <div class="addon-row ${selectedAddons[addon.id] ? 'selected' : ''}" id="addon-${addon.id}" onclick="toggleAddon('${addon.id}')">
             <span class="addon-check">${selectedAddons[addon.id] ? '✓' : ''}</span>
             <div class="addon-info">
@@ -1470,8 +1458,9 @@ function handleSubmit(e) {
     btn.textContent = 'Creating...';
     btn.disabled = true;
 
-    adminFetch('/api/create-invoice.php', {
+    fetch('/api/create-invoice.php', {
         method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
     })
     .then(r => r.json())
@@ -1560,7 +1549,7 @@ function closeModal() {
 
 // Load recent invoices
 function loadRecentInvoices() {
-    adminFetch('/api/get-invoice.php?recent=1')
+    fetch('/api/get-invoice.php?recent=1')
         .then(r => r.json())
         .then(data => {
             if (data.invoices && data.invoices.length > 0) {
@@ -1609,7 +1598,7 @@ let historyLoaded = false;
 function loadHistory() {
     if (historyLoaded) return;
 
-    adminFetch('/api/get-invoice.php?all=1')
+    fetch('/api/get-invoice.php?all=1')
         .then(r => r.json())
         .then(data => {
             if (!data.success || !data.invoices) throw new Error('No data');
@@ -1672,7 +1661,7 @@ function pullAirtableRecords(type) {
     statusEl.textContent = 'Fetching...';
     btn.disabled = true;
 
-    adminFetch(`/api/airtable-sync.php?action=${type}`)
+    fetch(`/api/airtable-sync.php?action=${type}`)
         .then(r => r.json())
         .then(data => {
             btn.disabled = false;
@@ -1747,7 +1736,7 @@ function importFromAirtable(airtableId, btn) {
 
     // Pull record data from the rendered card (we stored it during render)
     // Re-fetch from Airtable to get full record
-    adminFetch('/api/airtable-sync.php?action=records')
+    fetch('/api/airtable-sync.php?action=records')
         .then(r => r.json())
         .then(data => {
             if (!data.success) throw new Error(data.error);
@@ -1755,8 +1744,9 @@ function importFromAirtable(airtableId, btn) {
             if (!record) throw new Error('Record not found');
 
             // Now import it
-            return adminFetch('/api/airtable-sync.php?action=import', {
+            return fetch('/api/airtable-sync.php?action=import', {
                 method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     airtable_record_id: airtableId,
                     record: { fields: {
@@ -1804,8 +1794,9 @@ function acceptAirtableRecord(airtableId, invoiceId, btn) {
     btn.disabled = true;
     btn.textContent = 'Updating...';
 
-    adminFetch('/api/airtable-sync.php?action=accept', {
+    fetch('/api/airtable-sync.php?action=accept', {
         method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             airtable_record_id: airtableId,
             invoice_id: invoiceId,

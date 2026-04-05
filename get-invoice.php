@@ -10,12 +10,12 @@
  *   All invoices:   /api/get-invoice.php?all=1
  */
 
+// Auth: listing endpoints protected by .htpasswd in .htaccess
 header('Content-Type: application/json');
 $allowed_origin = getenv('APP_ORIGIN') ?: 'https://pay.yourcompany.com';
 header('Access-Control-Allow-Origin: ' . $allowed_origin);
 
 $config = [
-    'admin_password' => getenv('ADMIN_PASSWORD') ?: '',
     'db_path' => __DIR__ . '/data/invoices.sqlite',
 ];
 
@@ -28,15 +28,6 @@ try {
 
     // --- Recent invoices list ---
     if (isset($_GET['recent']) || isset($_GET['all'])) {
-        $authHeader = $_SERVER['HTTP_X_ADMIN_PASSWORD'] ?? '';
-        $authParam = $_GET['auth'] ?? '';
-        $providedAuth = $authHeader ?: $authParam;
-        if (empty($config['admin_password']) || $providedAuth !== $config['admin_password']) {
-            http_response_code(401);
-            echo json_encode(['success' => false, 'error' => 'Unauthorized']);
-            exit;
-        }
-
         $limit = intval($_GET['limit'] ?? 50);
         $limit = max(1, min($limit, 200));
 

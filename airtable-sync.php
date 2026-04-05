@@ -16,11 +16,12 @@
  *   POST ?action=import        → Import an Airtable proposal into local DB as invoice
  */
 
+// Auth: protected by .htpasswd in .htaccess
 header('Content-Type: application/json');
 $allowed_origin = getenv('APP_ORIGIN') ?: 'https://pay.yourcompany.com';
 header('Access-Control-Allow-Origin: ' . $allowed_origin);
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, X-Admin-Password');
+header('Access-Control-Allow-Headers: Content-Type');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
@@ -30,21 +31,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 require_once __DIR__ . '/airtable-helper.php';
 
 $config = [
-    'admin_password' => getenv('ADMIN_PASSWORD') ?: '',
     'db_path'        => __DIR__ . '/data/invoices.sqlite',
     'base_url'       => 'https://pay.yourcompany.com',
 ];
-
-// Auth check — admin password required
-$authHeader = $_SERVER['HTTP_X_ADMIN_PASSWORD'] ?? '';
-$authParam = $_GET['auth'] ?? '';
-$providedAuth = $authHeader ?: $authParam;
-
-if (empty($config['admin_password']) || $providedAuth !== $config['admin_password']) {
-    http_response_code(401);
-    echo json_encode(['error' => 'Unauthorized']);
-    exit;
-}
 
 $action = $_GET['action'] ?? $_POST['action'] ?? '';
 

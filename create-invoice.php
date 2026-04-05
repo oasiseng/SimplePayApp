@@ -23,7 +23,6 @@ $config = [
     'connected_account_id'  => getenv('STRIPE_CONNECTED_ACCOUNT_ID') ?: '',
     'platform_fee_percent'  => 10, // 7% you + 3% Stripe ≈ 10% total off the top
     'base_url'              => 'https://pay.yourcompany.com',
-    'admin_password'        => getenv('ADMIN_PASSWORD') ?: '',
     'db_path'               => __DIR__ . '/data/invoices.sqlite',
     'zapier_invoice_webhook' => getenv('ZAPIER_INVOICE_WEBHOOK') ?: '', // Fires when invoice is created
     'zapier_payment_webhook' => getenv('ZAPIER_PAYMENT_WEBHOOK') ?: '', // Fires when payment confirmed
@@ -33,22 +32,15 @@ $config = [
 // ============================================================
 // CORS & Headers
 // ============================================================
+// Auth: protected by .htpasswd in .htaccess
 header('Content-Type: application/json');
 $allowed_origin = getenv('APP_ORIGIN') ?: 'https://pay.yourcompany.com';
 header('Access-Control-Allow-Origin: ' . $allowed_origin);
 header('Access-Control-Allow-Methods: POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, X-Admin-Password');
+header('Access-Control-Allow-Headers: Content-Type');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
-    exit;
-}
-
-// Auth check — admin password required
-$authHeader = $_SERVER['HTTP_X_ADMIN_PASSWORD'] ?? '';
-if ($authHeader !== $config['admin_password']) {
-    http_response_code(401);
-    echo json_encode(['success' => false, 'error' => 'Unauthorized']);
     exit;
 }
 
